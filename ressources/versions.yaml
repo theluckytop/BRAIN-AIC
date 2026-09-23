@@ -1,0 +1,10 @@
+# Politique de versions
+version_actuelle: 1.0.0
+historique_max: 10
+# Ce qu'une mise à jour remplace : la mécanique.
+#   AGENTS.md CLAUDE.md DEPLOIEMENT.md install.sh VERSION .gitignore
+#   .claude/ .codex/ pentest/referentiels/ et les fichiers _MODELE.md
+# Ce qu'elle ne touche jamais : le vécu.
+#   memoire/ journal/ humain/ travail/ projet/ livrables/ quarantaine/
+#   pentest/rapports/ pentest/exemptions.md versions/
+# Les fichiers ressources/*.yaml sont conservés : la nouvelle version arrive en .nouveau.

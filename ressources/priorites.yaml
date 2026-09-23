@@ -1,0 +1,6 @@
+# Ordre de traitement des tâches
+ordre_priorite: urgent, haute, normale
+regle_1: une tâche qui en débloque d'autres passe avant les autres de même priorité
+regle_2: à priorité égale, la plus ancienne d'abord
+regle_3: une tâche en attente de réponse humaine est mise de côté, pas abandonnée
+regle_4: un constat de sécurité bloquant passe avant toute tâche fonctionnelle

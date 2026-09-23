@@ -1,0 +1,29 @@
+# Tarifs : À REMPLIR par l'humain, en unité monétaire par million de tokens.
+# Source officielle des tarifs : https://claude.com/pricing  (relever aussi la date)
+# Tant que les prix valent 0, estimer.py refuse de chiffrer. C'est voulu.
+tarifs_verifies_le: 1970-01-01
+petit_nom: haiku
+petit_prix_entree: 0
+petit_prix_sortie: 0
+moyen_nom: sonnet
+moyen_prix_entree: 0
+moyen_prix_sortie: 0
+grand_nom: opus
+grand_prix_entree: 0
+grand_prix_sortie: 0
+
+# Coefficients d'estimation
+tokens_par_octet: 0.25
+facteur_relecture: 2.5
+ratio_sortie: 0.35
+marge_basse: 0.6
+marge_haute: 1.8
+calibration: 1.0
+
+# Règles de routage : mots-clés déclenchant un palier
+mots_petit: explorer, cartographier, lire, resumer, resume, extraire, renommer, reformater, lister, inventorier, trier, journal
+mots_moyen: implementer, corriger, ajouter, tester, ecrire, integrer, brancher, adapter
+mots_grand: architecture, concevoir, refonte, refactor, securite, chiffrement, authentification, autorisation, migrer, deboguer, ambigu, performance
+
+# Fichiers ignorés lors de la mesure du périmètre
+exclusions: node_modules, vendor, dist, build, target, .git, .venv, __pycache__

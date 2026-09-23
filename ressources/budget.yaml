@@ -1,0 +1,13 @@
+# Limites appliquées par les hooks
+duree_max_minutes: 90
+actions_max: 300
+tentatives_max: 3
+# Limites indicatives, respectées sur consigne
+sous_agents_paralleles_max: 3
+tokens_max_indicatif: 500000
+# Arbitrage de modèle
+devise: EUR
+credits_max_par_tache: 5.00
+credits_max_par_session: 20.00
+modele_nominal: moyen
+modele_minimal_autorise: petit

@@ -1,0 +1,12 @@
+travail/brouillons/*
+!travail/brouillons/.gitkeep
+journal/*.log
+journal/.compteurs.json
+quarantaine/*
+!quarantaine/README.md
+projet/*
+!projet/README.md
+livrables/*
+!livrables/.gitkeep
+humain/taches/pieces_jointes/*
+!humain/taches/pieces_jointes/.gitkeep

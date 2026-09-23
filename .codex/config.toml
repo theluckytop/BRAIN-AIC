@@ -1,0 +1,7 @@
+# Codex n'applique ni les hooks ni les permissions de Claude Code.
+# Ici, les zones [R] reposent sur AGENTS.md et, si elle est appliquée, sur la protection chmod.
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+[sandbox_workspace_write]
+network_access = false
