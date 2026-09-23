@@ -1,52 +1,35 @@
-# État — mis à jour le : 2026-09-24 00:05
+# État — mis à jour le : 2026-09-24 00:52
 
-**Tâche en cours** : BRAINIAC Console, phase 1 (coquille) terminée, **point de contrôle : en attente de ta validation**
-**Modèle** : courant opus / recommandé moyen (sonnet) pour la phase 1 / nominal moyen
-**Budget** : estimé 0,01 à 0,03 USD (estimateur, `projet/` vide : non significatif) / réel : non lisible depuis l'agent, à relever de ton côté. Session : ~62 min, ~130 actions.
+**Tâche en cours** : aucune. BRAINIAC Console, phase 1 **close** (clôture terminée). Phase 2 (`brainiac_console_phase2.md`) à lancer dans une nouvelle session.
+**Modèle** : courant sonnet / recommandé moyen (sonnet) / nominal moyen
+**Budget** : estimé non chiffré pour cette clôture (l'estimateur ne trouve pas le fichier de la phase 1) / réel : non lisible depuis l'agent, à relever de ton côté. Session : ~30 actions, 2 sous-agents.
 
 ## Fait
-- Phase 0 close (verdict CONFORME), approuvée avec conditions.
-- Phase 1 livrée dans `projet/brainiac-console/`, commits `d77b4da` et `9805a10` :
-  - module d'écriture unique : création seule, ajout seul, 13 tests ;
-  - projets et configuration : 5 tests (`cargo test` : 18 réussis) ;
-  - fenêtre translucide avec repli opaque ;
-  - logo SVG en 3 variantes, Inter embarquée ;
-  - contraste AA respecté (0 échec) ;
-  - rendu vérifié à 420 px ;
-  - démarrage en 976 à 987 ms (build de débogage) ;
-  - aucune option interdite dans le code.
-- Audit `/pentest` du périmètre `application` : **0 critique, 0 élevé**, 2 moyens, 15 faibles (`pentest/rapports/2026-09-23_235354/synthese.md`).
-- Relecture `verificateur` : 7 écarts. 4 corrigés (glyphes hors police, recherche jointe, rouge décoratif, capture précisée), 3 déclarés dans le rapport (test 14 partiel, coût réel non relevé, `npm view`).
-- Proposition de correction du garde-fou déposée (test : 20 cas, 0 échec).
+- Clôture de la phase 1 selon ta réponse du 2026-09-24 :
+  - **Relecture `verificateur`** après `9805a10` : 9 critères sur 10 conformes. Le critère 4 (fenêtre) reste non conforme : le repli opaque sans compositeur n'est pas observable sur cette machine (test 14 partiel, déjà déclaré au rapport). Les 4 corrections de `9805a10` sont effectives, les 3 écarts déclarés le sont honnêtement. `cargo test` : 18 réussis ; contraste : 0 échec.
+  - **Audit différentiel** de `src/App.svelte` et `scripts/contraste.mjs` : 0 critique, 0 nouveau constat, 0 régression (`pentest/rapports/2026-09-24_differentiel_phase1/`, avec `complement.md` : l'auditeur n'ayant pas de shell, j'ai lancé le diff moi-même).
+  - **Preuves** copiées dans `projet/brainiac-console/docs/preuves/phase1/` (commit `eb8b542`, avec un README de provenance), puis `travail/brouillons/` vidé (`.gitkeep` conservé), `ff/` et `apercu/` compris, comme tu l'as accordé.
+- Mémoire : 2 décisions, 2 leçons, 1 ligne d'estimation. Aucun calibrage proposé : 0 relevé exploitable sur 10 requis.
 
 ## En cours
 —
 
 ## Bloqué
-- **Budget de session épuisé** (94 min > 90, hook) pendant `/cloture` de la phase 1. Rien n'a été lancé : ni la re-relecture ni l'audit différentiel. Reste à faire dans une **nouvelle session** :
-  1. verdict du `verificateur` après les corrections du commit `9805a10` ;
-  2. audit différentiel de `src/App.svelte` et `scripts/contraste.mjs` (seuls fichiers modifiés depuis l'audit) ;
-  3. vidage de `travail/brouillons/`, qui demande ton accord puisque c'est une suppression : je propose de déplacer les preuves (captures, journaux, recherche) dans le rapport ou dans `quarantaine/` ;
-  4. ligne d'estimations finale et retour de palier.
-  Le rapport de phase 1 déposé dans `a_valider/` reste valable ; son verdict de relecture sera complété.
-- `/tache brainiac_console_phase2.md` (2026-09-24) : pas démarrée. Le fichier n'existe pas dans `humain/taches/`, et `validations.md` n'autorise que « plan et phase 1 ». Aucune autre tâche en attente : `brainiac_console.md` et sa phase 1 attendent ta réponse (règle 3 de `priorites.yaml` : mises de côté, pas abandonnées).
+—
 
 ## En attente de ta validation
-- `humain/a_valider/2026-09-23_brainiac_console_phase1_rapport.md` : clôture de la phase 1, autorisation de la phase 2, retrait des fichiers du gabarit.
-- `humain/a_valider/2026-09-23_garde_fou_faux_positif_version.md` : correctif de `garde_fou.sh`, à appliquer par toi.
+- `humain/a_valider/2026-09-24_brainiac_console_phase1_cloture.md` : que faire du test 14 (option A recommandée : le reporter en phase 6, session X11 sans composition). N'empêche pas la phase 2.
+- `humain/a_valider/2026-09-23_garde_fou_faux_positif_version.md` : correctif de `garde_fou.sh`, à appliquer par toi. Ses preuves (`garde_fou.diff`, `test_garde_fou.sh`) sont dans `docs/preuves/phase1/`.
+- `humain/a_valider/2026-09-23_brainiac_console_phase1_rapport.md` : approuvé le 2026-09-24 (`validations.md`). Le verdict de relecture est dans la proposition de clôture ci-dessus.
 
 ## Sécurité
-Aucun constat critique ouvert. Deux points moyens :
-- **V15.1.1** : délais de correction des dépendances à définir. Je les rédige en phase 2.
-- **V15.2.1** : `npm audit` et `cargo audit` sont **à lancer par toi** (accès réseau), commandes au §5 du rapport.
-
-Exemptions proposées par l'auditeur, **non accordées** (cookies, HTTPS, serveur HTTP, archives) : à toi de les inscrire dans `pentest/exemptions.md` si tu les retiens.
+Aucun constat critique ouvert, ni à l'audit initial ni au différentiel. Reste ouvert : V3.7.2 (faible, garde de navigation) et les points faibles de l'audit du 2026-09-23, prévus en tête de la phase 2. V15.1.1 et V15.2.1 sont traités par tes décisions du 2026-09-24 (délais fixés, `npm audit` à 0 ; `cargo audit` non disponible, à réexaminer).
 
 ## Écarts à connaître
-- 4 appels `npm view`, hors de l'autorisation réseau (leçon consignée).
-- Un `cd` a verrouillé la session ; tu l'as débloquée.
-- Ajout de `gtk` (déjà compilé par tauri) ; `tauri-plugin-opener` retiré jusqu'à la phase 5.
-- Palette ajustée pour le niveau AA : fond à 86 %, texte secondaire plus clair, rouge de texte dédié.
+- Test 14 toujours partiel (voir plus haut).
+- Coût réel de la phase 1 et de cette clôture : non relevé, à lire de ton côté.
+- Les yeux rouges du logo ne sont pas un écart : le cahier (§ logo, ligne 153) les prévoit.
+- Deux fichiers de preuve concernant l'espace (`garde_fou.diff`, `test_garde_fou.sh`) vivent dans le dépôt de l'application, faute d'autre lieu d'écriture libre.
 
 ## Prochaine étape
-Valide (ou non) la phase 1 dans `validations.md` et dépose la tâche de la phase 2. Pour la phase 2, je propose `/model sonnet` (palier moyen recommandé par l'estimateur).
+Nouvelle session à la racine de BRAINIAC, puis `/tache brainiac_console_phase2.md` (`sonnet` déjà actif). Le commit du dépôt BRAINIAC (mémoire, rapports, état) n'est pas fait : je ne commite pas sans ta demande.

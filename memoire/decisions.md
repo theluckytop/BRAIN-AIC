@@ -33,3 +33,13 @@ Ajout uniquement. Format :
 - Contexte : cahier §7, valeurs « indicatives » ; `scripts/contraste.mjs` mesure le pire cas (fenêtre translucide sur fond blanc).
 - Alternatives rejetées et pourquoi : garder 82 % et `#8A9A8C` (4,2 : sous le seuil AA) ; employer `#E8323C` comme couleur de texte (3,4).
 - Conséquences : fond à 86 %, `--texte-2: #9AAA9C`, `--alerte-texte: #FF8088` ; `#E8323C` réservé aux aplats.
+
+## 2026-09-24 — Preuves de phase conservées dans le dépôt de l'application, pas dans `quarantaine/`
+- Contexte : `/cloture` de la phase 1 ; `travail/brouillons/` devait être vidé et contenait les preuves citées par le rapport.
+- Alternatives rejetées et pourquoi : `quarantaine/`, réservée aux échecs (AGENTS.md) ; laisser les brouillons, qui sont un espace jetable.
+- Conséquences : preuves dans `projet/brainiac-console/docs/preuves/phase1/` (commit `eb8b542`) avec README de provenance ; `.log` renommés en `.txt` car `*.log` est ignoré par git ; `garde_fou.diff` et `test_garde_fou.sh` (espace, pas application) y sont aussi, faute d'autre lieu d'écriture libre ; `apercu/` et `ff/` (profil Firefox) non conservés.
+
+## 2026-09-24 — Clôture de la phase 1 avec le test 14 encore partiel
+- Contexte : relecture NON CONFORME sur le seul critère 4 (repli sans compositeur non observable sur GNOME Wayland).
+- Alternatives rejetées et pourquoi : requalifier l'écart en conforme (aucune preuve) ; bloquer la phase 2 (l'humain l'a autorisée en connaissant l'écart).
+- Conséquences : décision de report proposée dans `a_valider/2026-09-24_brainiac_console_phase1_cloture.md`.

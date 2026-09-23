@@ -51,3 +51,14 @@ Ajout uniquement. Relues au démarrage de chaque tâche. Format :
 - Cause réelle : le hook mesure le temps réel depuis le début de la session, pas le temps de travail.
 - Correctif : aucun dans cette session ; clôture à reprendre dans une nouvelle session.
 - Règle : passé 60 min, finir la clôture avant de rendre la main ; ne jamais enchaîner deux phases dans une même session.
+
+## 2026-09-24 — Les agents d'audit n'ont pas de shell : leur donner le diff
+- Symptôme : l'audit différentiel n'a pas pu lancer `git diff` et a comparé par numéros de ligne, avec une limite déclarée.
+- Cause réelle : `pentest_*` n'ont que Read, Grep, Glob, Write ; le prompt demandait un diff.
+- Correctif : l'agent principal a lancé le diff et l'a versé dans `complement.md`.
+- Règle : pour un audit différentiel, coller le diff dans le prompt de l'auditeur.
+
+## 2026-09-24 — Un fichier `.log` de preuve est ignoré par git
+- Symptôme : `*.log` figure dans le `.gitignore` du gabarit ; les journaux de lancement n'auraient pas été commités.
+- Correctif : copies en `.txt` (README de provenance).
+- Règle : nommer les preuves `.txt` d'emblée.
