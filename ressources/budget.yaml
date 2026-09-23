@@ -6,7 +6,7 @@ tentatives_max: 3
 sous_agents_paralleles_max: 3
 tokens_max_indicatif: 500000
 # Arbitrage de modèle
-devise: EUR
+devise: USD
 credits_max_par_tache: 5.00
 credits_max_par_session: 20.00
 modele_nominal: moyen

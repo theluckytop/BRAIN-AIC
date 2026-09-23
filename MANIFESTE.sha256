@@ -13,7 +13,7 @@ f708dfe7ae15e5402668eaaef33e3f3c097a03ea61deabe244677a6af2a5e74b  ./.claude/comm
 d7e15592a1a832f405e00db1dab6a4dd58bc79cfeeac85fa653503c79dcad52c  ./.claude/commands/tache.md
 c1d07e224092b4ccfec68511d37d7cf65ead0dbd8038e192f7f735e2b3aa3485  ./.claude/hooks/garde_fou.sh
 4bbd44302fb7d8ad2506de7de989e58e9ac8527201ca96ae4021656ac73dd168  ./.claude/hooks/verif.sh
-50710979feb2fae7d4cb74995aff3230248b7194c2aeab81a714ec564e717a0e  ./.claude/outils/autotest.sh
+028b196436db0da7bb9c07f01b8b50e30ebedf0bd6d004e60d003399d5c8abfb  ./.claude/outils/autotest.sh
 9823bff77a518458fcadad7c0c9d7067157941cebdddd2137be739dc45e1a724  ./.claude/outils/estimer.py
 07b9ff565a1599d1d99aba16e9a9c13e8e29c721458003a7c85f2a9f1dc66110  ./.claude/outils/mettre_a_jour.py
 6f95e71805752bc5f38b0a07a1661072d7c4144f5079a7cfb35a1774bff63bca  ./.claude/outils/verifier.sh
@@ -46,9 +46,4 @@ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  ./pentest/rapp
 4972714be4a6d47a3091bef456233da292b44e53d0354be1970761faedb00bad  ./pentest/referentiels/wstg-checklist-deduplicated.json
 0aeae94a408ca757162460c296943bb87b1c1ec8bb9f68082e24a779e80f7b3d  ./pentest/referentiels/wstg-to-asvs-deduplication-log.json
 bf26521aeebdaabe1b798a8b3be8edf65d40208d70ecdb84ec2a19fcbbf1b7e3  ./quarantaine/README.md
-41916a492b3a6e8a0fcf56b12fcb5391feb26a6ad913b722ee9e28017de8f502  ./ressources/arbitrage.yaml
-fb2aacef57ad42054bdde2c98de054612f8c8cb66342fcdcea09c21950bb91f9  ./ressources/budget.yaml
-64e65b371e4f4966d6b4ed758710308a46b5d2fad10ffc46bf17e0ec4e739cdb  ./ressources/pentest.yaml
-6632d53bc0a936f43fcc07468cd751e05cf379bfd9e90ea848cbd18f375c5c50  ./ressources/priorites.yaml
-a60da5e9929cff4c8b6ab195eff0f8eb34074b6e47d54ca9402be5c4a6b82ad3  ./ressources/versions.yaml
 db6215629a979cfcca7fab829d88b23acf97d82b89896be5a68a43374110bb79  ./travail/plan.md

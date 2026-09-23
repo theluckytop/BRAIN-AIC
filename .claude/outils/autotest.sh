@@ -10,6 +10,10 @@ trap nettoyer EXIT
 cp -a "$ORIGINE/." "$TMP/" 2>/dev/null
 rm -rf "$TMP/projet" "$TMP/.git" "$TMP/assets" "$TMP/memoire/contexte" 2>/dev/null
 mkdir -p "$TMP/projet" "$TMP/memoire/contexte"
+# Tarifs de la copie remis à leur état de livraison : les tests de l'estimateur ne dépendent pas
+# des réglages de l'humain.
+chmod u+w "$TMP/ressources/arbitrage.yaml" 2>/dev/null
+sed -i -E 's/^(petit|moyen|grand)_prix_(entree|sortie):.*/\1_prix_\2: 0/; s/^tarifs_verifies_le:.*/tarifs_verifies_le: 1970-01-01/' "$TMP/ressources/arbitrage.yaml"
 B="$TMP"
 cd "$B" || exit 1
 export CLAUDE_PROJECT_DIR="$B"
