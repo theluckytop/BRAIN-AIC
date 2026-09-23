@@ -17,9 +17,10 @@ Le travail avance phase par phase (sections 5 et 6 du cahier), avec un accord hu
 - Pile imposée : Tauri (cœur Rust), Vite + TypeScript, Svelte au plus, aucune bibliothèque de
   composants. Vérifier la version majeure actuelle de Tauri et sa documentation avant d'écrire du code.
 - Machine cible : Ubuntu 26.04 (base Debian), x86_64. Claude Code 2.1.281 installé.
-- **Rien n'est installé pour compiler** : ni Rust (`cargo`, `rustc`), ni Node.js (`node`, `npm`), ni
-  les dépendances système de Tauri. Leur installation relève de l'accord humain : la lister en phase 0,
-  ne pas la lancer.
+- **Chaîne de compilation installée le 2026-09-23** : Rust 1.98.1 (rustup, chaîne stable), Node.js
+  22.22.1 et npm 9.2.0 (paquets Ubuntu), dépendances système de Tauri 2 (WebKitGTK 4.1 2.52.6, GTK 3,
+  libsoup 3, AppIndicator, librsvg, libxdo, OpenSSL). La phase 0 vérifie que ces versions conviennent ;
+  toute installation ou mise à niveau supplémentaire relève de l'accord humain.
 - Le logo de référence est `assets/logo_brainiac.png`.
 - L'application occupe la place de l'humain, jamais celle de l'agent (section 2 du cahier).
 
