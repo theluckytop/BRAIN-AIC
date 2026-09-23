@@ -17,7 +17,7 @@ c1d07e224092b4ccfec68511d37d7cf65ead0dbd8038e192f7f735e2b3aa3485  ./.claude/hook
 9823bff77a518458fcadad7c0c9d7067157941cebdddd2137be739dc45e1a724  ./.claude/outils/estimer.py
 07b9ff565a1599d1d99aba16e9a9c13e8e29c721458003a7c85f2a9f1dc66110  ./.claude/outils/mettre_a_jour.py
 6f95e71805752bc5f38b0a07a1661072d7c4144f5079a7cfb35a1774bff63bca  ./.claude/outils/verifier.sh
-5886a0e3b711be04b325e6759e4447536e97af5cf8ec1cad18f8d9649d2f0687  ./.claude/settings.json
+3eb279fd9da14462df264f03bfd9320649648153536db8be4adfeeefcaff7123  ./.claude/settings.json
 6fa21ef1b512ce128b9c12b43d4bbb8e6708eeeb2df8d4f80875a358a03aef29  ./.codex/config.toml
 e24b140911bda685ac853495a45e4f910a4d2f15eff4b3f8107a282a532d19ef  ./.gitignore
 05257f7eaa4a6c5297d730f309801ae6d4ca9367ef390ca95d4f983979fc8202  ./AGENTS.md
