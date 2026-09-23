@@ -26,4 +26,4 @@ mots_moyen: implementer, corriger, ajouter, tester, ecrire, integrer, brancher, 
 mots_grand: architecture, concevoir, refonte, refactor, securite, chiffrement, authentification, autorisation, migrer, deboguer, ambigu, performance
 
 # Fichiers ignorés lors de la mesure du périmètre
-exclusions: node_modules, vendor, dist, build, target, .git, .venv, __pycache__
+exclusions: node_modules, vendor, dist, build, target, .git, .venv, __pycache__, gen, icons, docs
