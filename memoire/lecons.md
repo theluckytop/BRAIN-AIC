@@ -33,3 +33,21 @@ Ajout uniquement. Relues au démarrage de chaque tâche. Format :
 - Cause réelle : commande perçue comme une « simple lecture », alors qu'elle interroge le registre.
 - Correctif : lire les versions dans `package-lock.json` et `Cargo.lock` après installation.
 - Règle : toute commande qui touche un registre ou une URL passe par la liste d'accès accordée, mot pour mot.
+
+## 2026-09-24 — Police embarquée : vérifier la couverture des glyphes
+- Symptôme : ▾ ⚙ □ affichés dans l'interface alors qu'ils ne figurent pas dans le sous-ensemble latin d'Inter ; rendu confié en silence à une police système (test 19).
+- Cause réelle : caractères Unicode employés comme icônes, sans vérifier le jeu de caractères de la police.
+- Correctif : icônes en SVG ; contrôle par `fc-query -f '%{charset}'` sur le fichier de police et `git grep -P` des caractères hors plage.
+- Règle : aucune icône sous forme de caractère ; tout texte affiché doit tenir dans le jeu de caractères de la police embarquée.
+
+## 2026-09-24 — Une preuve annoncée doit exister sur le disque
+- Symptôme : le rapport annonçait une recherche « jointe », mais le fichier faisait 0 octet et ne contenait pas la commande ; la capture du test 10 venait de données d'exemple sans que le rapport le dise.
+- Cause réelle : rapport rédigé de mémoire, sans relire les fichiers de preuve.
+- Correctif : chaque fichier de preuve contient la commande, la date et la sortie ; la provenance de chaque capture est écrite.
+- Règle : avant de citer une preuve, l'ouvrir.
+
+## 2026-09-24 — La durée de session compte aussi le temps d'attente de l'humain
+- Symptôme : `/cloture` coupée par le hook (94 min > 90), alors que la dernière mesure donnait 66 min ; la pause entre deux messages humains a consommé le reste.
+- Cause réelle : le hook mesure le temps réel depuis le début de la session, pas le temps de travail.
+- Correctif : aucun dans cette session ; clôture à reprendre dans une nouvelle session.
+- Règle : passé 60 min, finir la clôture avant de rendre la main ; ne jamais enchaîner deux phases dans une même session.

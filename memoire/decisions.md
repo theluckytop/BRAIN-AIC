@@ -23,3 +23,13 @@ Ajout uniquement. Format :
 - Contexte : condition de l'approbation humaine ; l'estimateur mesure `projet/` et sous-estime une construction à partir de rien.
 - Alternatives rejetées et pourquoi : une seule tâche pour les 7 phases (plafonds de durée, d'actions et de 5 USD intenables).
 - Conséquences : chaque phase a son fichier de tâche, son estimation au démarrage, son rapport et un point de contrôle humain.
+
+## 2026-09-23 — Mode d'écriture imposé par la zone, jamais choisi par l'appelant
+- Contexte : test 5 et condition d'approbation « création seule dans taches/ et pieces_jointes/ ».
+- Alternatives rejetées et pourquoi : un paramètre `mode` passé par l'appelant, qui permettrait à une commande future de demander un écrasement.
+- Conséquences : `ecriture::Zones::ecrire` déduit le mode du chemin canonique ; `create_new` pour les tâches, `append` sur fichier existant pour validations/questions, renommage atomique pour la configuration.
+
+## 2026-09-23 — Palette ajustée au contraste AA mesuré
+- Contexte : cahier §7, valeurs « indicatives » ; `scripts/contraste.mjs` mesure le pire cas (fenêtre translucide sur fond blanc).
+- Alternatives rejetées et pourquoi : garder 82 % et `#8A9A8C` (4,2 : sous le seuil AA) ; employer `#E8323C` comme couleur de texte (3,4).
+- Conséquences : fond à 86 %, `--texte-2: #9AAA9C`, `--alerte-texte: #FF8088` ; `#E8323C` réservé aux aplats.

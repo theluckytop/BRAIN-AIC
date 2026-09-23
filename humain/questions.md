@@ -17,3 +17,9 @@ Options : A lecture web limitée à ces sources officielles, sans rien télécha
 En attendant : je poursuis sur les vérifications locales (versions installées, `claude --help`, question 4.3).
 Réponse : 
 (Consigné par l'agent, 2026-09-23 23:01) Réponse donnée en session : « A, accès web limité aux sources officielles ». Utilisée en lecture seule : crates.io, registry.npmjs.org, v2.tauri.app, code.claude.com.
+
+## 2026-09-24 — brainiac_console_phase1 (clôture)
+Question : le budget de session (90 min) est épuisé en pleine `/cloture` de la phase 1. Comment la termines-tu ? Et que faire de `travail/brouillons/`, qui contient les preuves citées dans le rapport ?
+Options : A nouvelle session (`/model sonnet` conseillé) qui relance `/cloture` ; preuves déplacées dans `quarantaine/2026-09-24_phase1_preuves/` avant vidage (recommandée : la clôture reste complète et les preuves citées restent accessibles) / B clôture acceptée en l'état, sur le rapport déjà déposé ; brouillons laissés en place
+En attendant : rien, la session est bloquée par le hook.
+Réponse : A, avec un changement (humain, 2026-09-24). Nouvelle session sous sonnet qui termine /cloture : relecture après 9805a10, audit différentiel de src/App.svelte et scripts/contraste.mjs, ligne d'estimation. Les preuves citées dans le rapport ne vont PAS dans quarantaine/ (réservée aux échecs, AGENTS.md) : copie-les dans projet/brainiac-console/docs/preuves/phase1/ et commite-les avec le code. Ensuite, tu as mon accord pour vider travail/brouillons/ (sauf .gitkeep), y compris ff/ et apercu/.
