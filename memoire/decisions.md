@@ -191,3 +191,24 @@ Ajout uniquement. Format :
 - Conséquences : refus seulement des enveloppes signe/±1, des facteurs ±1 et des sommes à exposant
   négatif ; quotient par une constante admis. La règle de degré est soumise à l'humain dans le
   rapport de phase 2.
+
+## 2026-09-29 — CSP : hash du script d'amorçage, vérifié par le build (échec fermé)
+- Contexte : étape 6b de la phase 3 ; choix A de l'humain (hash sha256). Le script inline de Trunk cite
+  le nom du `.js` haché : le hash change à chaque modification du code.
+- Alternatives rejetées et pourquoi : `'unsafe-inline'` (annule la CSP) ; script externe (option B non
+  retenue par l'humain) ; écrire `netlify.toml` pendant le build Netlify (l'en-tête est lu dans le
+  dépôt, effet non garanti).
+- Conséquences : `app/scripts/csp.mjs --ecrire` (poste de travail, puis commit) et `--verifier` dans la
+  commande de build de `netlify.toml` : toute divergence fait échouer le déploiement au lieu de servir
+  une page blanche. Risque : `RUST_VERSION = "stable"` non épinglé, un compilateur différent peut
+  changer le `.js` et casser le build (échec visible, pas silencieux). Preuves : `csp_hash.txt`,
+  `csp_reel.txt`. Reste l'`@import` Google Fonts bloqué (décision du 2026-09-28).
+
+## 2026-09-29 — Phase 3 close par erratum, sans réécrire les preuves
+- Contexte : `/cloture` de la phase 3 ; relecture finale de `34cad26` CONFORME avec 8 écarts mineurs
+  (taille WASM et temps cités d'exécutions antérieures, pieds de fichiers faux, sections dupliquées).
+- Alternatives rejetées et pourquoi : réécrire les fichiers de preuve (perd la trace de ce qui avait été
+  cité et relu) ; relancer les mesures sous navigateur (hors besoin : chaque valeur reste loin de son seuil).
+- Conséquences : `docs/preuves/phase3/erratum_cloture.txt` prime sur les fichiers qu'il corrige
+  (commits `84a03a5`, `f852273`, non relus par un tiers) ; chiffres retenus : 11 ms, 164 766 o gzip.
+  Réserve clavier maintenue (décision A de l'humain). Audits de clôture : 0 critique, 0 élevé.

@@ -1,13 +1,43 @@
-# État — mis à jour le : 2026-09-29 (arrêt du garde-fou, 92 min pour 90)
+# État — mis à jour le : 2026-09-29 (session 3, `/cloture` de la phase 3 faite)
 
-## À faire en premier, par toi
-- **Processus restés ouverts** (je n'ai plus le droit de lancer Bash) : `geckodriver` (port 4444),
-  `python3 -m http.server 8765` sur `app/dist`, `outils/serve.py` (port 8766), peut-être un Firefox
-  headless. Arrête-les : `! pkill -f geckodriver; pkill -f "http.server 8765"; pkill -f serve.py; pkill -f "firefox.*headless"`.
-- **Décision sur la CSP** (`humain/questions.md`, 2026-09-29 « l'app est blanche sous la CSP ») :
-  l'app rendue dans Firefox reste **vide** avec la CSP de `index.html` et de `netlify.toml`
-  (script d'amorçage inline de Trunk bloqué). Options A hash / B script externe / C `unsafe-inline`.
-  C'est un défaut hérité de la phase 1, jamais vu car aucune preuve ne lançait l'app.
+**Tâche en cours** : aucune. Phase 3 de l'app de maths **close côté agent, avec réserve clavier** (ta
+décision A) ; en attente de ta validation.
+**Modèle** : courant opus (à ta demande) ; phase 4 pressentie au palier moyen → `/model sonnet` en
+nouvelle session, à confirmer par `estimer.py` au dépôt de `maths_phase4.md`.
+**Budget** : phase 3 estimée 1,10 à 3,31 USD en sonnet (plafond 5,00 USD) ; clôture en opus, 3 sous-agents
+(≈ 231 k jetons) ; réel non lisible depuis l'agent, à relever de ton côté.
+
+## Fait (clôture, session 3)
+- **Relecture finale de `34cad26` : CONFORME**, 0 bloquant, 8 mineurs. Rejoués par le relecteur : 17 + 55 tests,
+  clippy `-D warnings` natif et wasm32, fmt, `trunk build --release`, hash CSP (code 0), `inner_html` 0 ligne.
+- **Audits différentiels** du correctif `6519fce`/`34cad26` (`pentest/rapports/2026-09-29_maths_phase3_cloture/`) :
+  **0 critique, 0 élevé, aucune régression**. Entrées : 4 conformes, 2 informations. Config (base 84) :
+  2 moyens hérités, 20 faibles ; CLO-HASH-1 (indéterminé, l'auditeur n'a pas de shell) levé par ma sortie brute.
+- Mineurs corrigés : `docs/preuves/phase3/erratum_cloture.txt` (commits `84a03a5`, `f852273` dans
+  `projet/maths`, **non relus par un tiers**) ; taille du build final 769 484 o, **164 766 o gzip** ;
+  temps WASM retenu **11 ms** (seul chiffre archivé sous la CSP) ; plan et rapport mis à jour.
+- Mémoire : 1 décision, 1 leçon (preuve datée avant le dernier code), 1 ligne d'estimation. Aucun
+  calibrage proposé : 0 relevé exploitable sur 10.
+
+## En attente de ta validation
+- `humain/a_valider/2026-09-29_maths_phase3_rapport.md` : clôture de la phase 3 avec réserve clavier,
+  **6 points à trancher** (démo et `#mesure` en production, `maxlength`, `style=`, `RUST_VERSION`,
+  `@import` Google Fonts, recommandations de l'audit : CSP entière vérifiée, `--locked`, `.gitignore`).
+- `humain/a_valider/2026-09-29_maths_phase4_tache.md` : **brouillon** de `humain/taches/maths_phase4.md`
+  (KaTeX + MathLive, un exercice jouable), à copier par toi si tu autorises la phase 4.
+- Test clavier réel de ta part (Tab puis Entrée sur un bouton de la démo), recommandé avec la décision A.
+
+## Non fait, et pourquoi
+- `travail/brouillons/` **non vidé** : pas d'accord de suppression (`phase2_diff.txt`, `tableau-pixel/`,
+  qui sert encore de référence pour la phase 4).
+- Dépôt BRAINIAC commité à ta demande (clôture de la phase 3).
+- Aucun push dans `projet/maths` (5 commits de phase 3 locaux : `26dbe0f` à `f852273`).
+
+## Sécurité
+Aucun constat critique ni élevé ouvert sur `projet/maths`. Ouverts : 2 moyens hérités (V15.1.1, V15.2.1),
+V15.2.3 non conforme faible (code de démo en production, point 1 du rapport), faibles listés dans les audits.
+
+---
 
 ## Phase 3 de l'app de maths — composants Leptos (sonnet, tâche entière, choix B) : en cours, arrêtée
 - Fait et rejoué par moi : étapes 1 à 6 (Button, MenuButton, AppShell, ConsigneCard, ExplainPanel,
@@ -33,6 +63,14 @@
   (≈ 60 actions, 4 sous-agents dont deux `executant` de 60 à 100 k jetons).
 - Écarts de méthode : mon horloge de 60 min partait de la tâche (14:03), celle du hook de la session ;
   leçon écrite. Deux sous-agents ont écrit un `cd` nu (sans effet).
+
+## Accords donnés en session (2026-09-29), à appliquer à la reprise
+- **Suppression** de `travail/_tmp_calc.mjs` (fichier vide créé par erreur) : accord de l'humain, à
+  exécuter en début de prochaine session (accord oral en session, valable pour ce seul fichier).
+- Commit du dépôt BRAINIAC : fait par l'humain (`4c0d8dd`, `84f2714`). Reste non commité : la phase 3
+  de `projet/maths` (attend le correctif CSP, l'audit et la relecture).
+- CSP : option A (hash sha256 du script d'amorçage), voir `humain/questions.md`.
+- `travail/brouillons/` : pas d'accord de vidage ; ignoré par git.
 
 ## Fin de phase 2 (rappel)
 - Phase 2 approuvée dans `validations.md` le 2026-09-29 (N-01 accepté, plafond 5,00 USD maintenu).

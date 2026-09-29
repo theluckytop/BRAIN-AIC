@@ -169,3 +169,50 @@ Ajout uniquement. Relues au démarrage de chaque tâche. Format :
 - Règle : lire l'heure de démarrage de la SESSION (pas de la tâche) pour le budget ; en début de
   session, s'il reste moins de 60 min, ne lancer que des étapes qui tiennent, sans agent en tâche de
   fond qui ouvre des processus.
+
+## 2026-09-29 — Un harnais qui échoue se diagnostique avant d'être blâmé ou contourné
+- Symptôme : `clavier.py` donnait 14/20 puis 15/20 ; l'état de la session précédente attribuait déjà
+  cela à « un harnais bugué ». Deux causes distinctes : une erreur de mon `pos()` (l'index 0 était exclu,
+  T1a) et Firefox 149 headless qui reçoit keydown/keyup d'Entrée sur le bon bouton sans produire de `click`
+  après certaines séquences (journal d'événements relevé ; un `click()` par script marche).
+- Cause réelle : (1) bug de recherche dans mon script ; (2) comportement du navigateur piloté, cause
+  non établie.
+- Correctif : `pos()` corrigé ; page rechargée avant les trois scénarios touchés (20/20), la note de
+  provenance dans `clavier.txt` dit le contournement et la réserve.
+- Règle : devant un échec de preuve, isoler par bissection (script minimal, journal d'événements) et
+  écrire dans la preuve ce qui a été contourné ; ne jamais citer un score sans cette note.
+
+## 2026-09-29 — Le hash CSP suit le code : le rejouer après toute modification de l'app
+- Symptôme : après la correction de `mesure.rs` et du Whiteboard, `csp.mjs --verifier` a échoué (attendu).
+- Cause réelle : le script d'amorçage de Trunk cite le nom du `.js` haché, qui dépend du wasm.
+- Correctif : `--ecrire`, rebuild, `--verifier`, puis toutes les preuves rejouées sur ce build.
+- Règle : ordre fixe en fin de phase : code figé → build → `csp.mjs --ecrire` → build → preuves → commit.
+  Toute retouche après cela recommence la chaîne.
+
+## 2026-09-29 — « Cause démontrée » exige un témoin positif, des répétitions et le déclencheur isolé
+- Symptôme : j'ai écrit « CAUSE DÉMONTRÉE » sur une seule exécution d'une page statique dont la séquence
+  différait de celle qui échouait dans l'app ; la 2e relecture l'a refusé (NON CONFORME).
+- Cause réelle : un seul échec reproduit, sans page témoin, sans compteur d'événements, sans isoler l'étape
+  nécessaire. Mon premier script de page statique avait même une séquence qui ne déclenchait rien.
+- Correctif : expérience refaite (témoin t=0, 3 répétitions, événements comptés, 3 voies) : le déclencheur est
+  l'envoi préalable de Tab par le pilote ; la note dit ce qui est établi et ce qui ne l'est pas.
+- Règle : une cause ne s'écrit « démontrée » qu'avec un témoin positif, ≥ 3 répétitions, le déclencheur isolé et
+  la sortie brute archivée ; sinon « hypothèse étayée ».
+
+## 2026-09-29 — Rendre la main sur une question en fin de session laisse filer le compteur
+- Symptôme : question d'escalade posée à ≈ 45 min ; l'humain a répondu plus tard, le garde-fou a refusé
+  toute action (189 min > 90). `/cloture` n'a pas pu être lancée.
+- Cause réelle : même cause que la leçon du 2026-09-24 (le hook compte le temps réel, attente comprise) ;
+  j'ai rendu la main sans prévenir que la réponse devrait être traitée en nouvelle session.
+- Correctif : réponse A consignée, `etat.md` à jour ; clôture reportée à une nouvelle session.
+- Règle : toute question posée après 30 min de session dit explicitement que la suite se fera en nouvelle
+  session, et l'`etat.md` est laissé prêt pour cette reprise avant de rendre la main.
+
+## 2026-09-29 — Une preuve datée avant le dernier changement de code n'est pas une preuve du build final
+- Symptôme : la relecture finale relève `taille_wasm.txt` (15:08) et des temps cités (13 ms, « 11 à 14 ms »)
+  antérieurs aux correctifs de 15:16-15:19, alors que le README affirmait « toutes rejouées sur le build final ».
+- Cause réelle : la chaîne « code figé → build → hash → preuves » (leçon du même jour) n'a pas été suivie
+  pour toutes les preuves ; certains chiffres venaient d'exécutions non archivées.
+- Correctif : erratum de clôture, taille remesurée sur le build final, temps ramené au seul fichier archivé.
+- Règle : avant de citer un chiffre, comparer l'heure du fichier de preuve à celle du dernier commit de code
+  (`ls -l --time-style` contre `git log -1 --format=%ci`) ; un chiffre sans fichier archivé ne se cite pas.
