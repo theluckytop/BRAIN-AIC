@@ -23,3 +23,45 @@ Question : le budget de session (90 min) est épuisé en pleine `/cloture` de la
 Options : A nouvelle session (`/model sonnet` conseillé) qui relance `/cloture` ; preuves déplacées dans `quarantaine/2026-09-24_phase1_preuves/` avant vidage (recommandée : la clôture reste complète et les preuves citées restent accessibles) / B clôture acceptée en l'état, sur le rapport déjà déposé ; brouillons laissés en place
 En attendant : rien, la session est bloquée par le hook.
 Réponse : A, avec un changement (humain, 2026-09-24). Nouvelle session sous sonnet qui termine /cloture : relecture après 9805a10, audit différentiel de src/App.svelte et scripts/contraste.mjs, ligne d'estimation. Les preuves citées dans le rapport ne vont PAS dans quarantaine/ (réservée aux échecs, AGENTS.md) : copie-les dans projet/brainiac-console/docs/preuves/phase1/ et commite-les avec le code. Ensuite, tu as mon accord pour vider travail/brouillons/ (sauf .gitkeep), y compris ff/ et apercu/.
+
+## 2026-09-24 01:01 — brainiac_console_phase2 (budget)
+Question : l'estimateur donnait 1,81 à 5,43 USD en sonnet pour la phase 2 (plafond de 5,00 USD dépassé par la borne haute) et demandait de découper la tâche. Tu la découpes ? (Question annoncée dans mon message précédent, consignée ici seulement après ta réponse.)
+Options : A garder la tâche entière (recommandée, parce que la borne basse est sous le plafond et que le périmètre mesuré incluait des fichiers générés) / B découper en deux tâches
+En attendant : je poursuis sur le plan et l'état de la phase 2.
+Réponse : A (humain, 2026-09-24). Tâche entière, pas de découpe. L'estimation était gonflée par src-tauri/gen/, src-tauri/icons/ et docs/, ajoutés aux exclusions de ressources/arbitrage.yaml. Nouvelle estimation : 0,44 à 1,33 USD en sonnet. Continuer la phase 2 avec l'arrêt à 60 min.
+(Consigné par l'agent, 2026-09-24 01:01) Relance de l'estimateur : périmètre 27 fichiers (203 ko), sonnet 0,442 à 1,327 USD, opus 0,885 à 2,654 USD, plafond de 5,00 USD tenu. Aucune bascule à proposer.
+
+## 2026-09-24 01:25 — brainiac_console_phase2 (délais de correction)
+Question : ta décision du 2026-09-24 fixe les délais (critique 7 j, élevée 30 j, moyenne 90 j) mais pas leur point de départ. Il court depuis quand ? `docs/dependances.md` le laisse « à préciser ».
+Options : A depuis la publication de l'avis (recommandée, parce que c'est mesurable et indépendant de nos audits) / B depuis la date où un audit le signale chez nous
+En attendant : je poursuis la phase 2 ; le document reste marqué « à préciser ».
+Réponse : A (humain, 2026-09-24). Le délai part de la publication de l'avis de sécurité.
+(Consigné par l'agent, 2026-09-24) `docs/dependances.md` mis à jour dans ce sens.
+
+## 2026-09-28 22:05 — projet maths (humain/dossier-projet-maths/), avant toute tâche
+Question : tu demandes de réaliser le projet décrit dans `humain/dossier-projet-maths/dossier/Cahier des charges.md`. Aucun fichier de tâche n'existe dans `humain/taches/`. Je prépare une proposition de phase 0 ; il me faut le périmètre, la pile et l'accès réseau pour la vérifier.
+Options : périmètre A vague 1 seule (recommandée, seule vague engagée par le cahier) / B vagues 1 et 2 / C tout le cahier ; pile A Leptos CSR + Trunk (recommandée, choix du cahier) / B hybride Vite + TS + moteur Rust ; réseau A lecture web des sources officielles, sans rien installer (recommandée) / B aucun accès
+En attendant : lecture locale du cahier et de `tableau-pixel.zip`.
+Réponse : 
+(Consigné par l'agent, 2026-09-28 22:05) Réponse donnée en session : périmètre « tout le cahier » (vagues 1 à 3) ; pile Leptos CSR + Trunk ; réseau en lecture web officielle, sans téléchargement ni installation.
+
+## 2026-09-28 23:53 — maths_phase2 (suite après la seconde relecture NON CONFORME)
+Question : la seconde relecture trouve 2 régressions (réponses justes jugées « à simplifier ») et des règles de forme encore contournables ; un 3e cycle ne tient pas avant la limite de 60 min. Comment terminer la phase 2 ?
+Options : A principe « jamais de sanction à tort » en nouvelle session (recommandée, parce que le cahier interdit de sanctionner une réponse juste et que les règles au cas par cas ne convergent pas) / B forme normale mathématique (plus juste, plus long) / C clore en l'état
+En attendant : état consigné, arrêt de la session.
+Réponse : 
+(Consigné par l'agent, 2026-09-28 23:54) Réponse donnée en session : A.
+
+## 2026-09-29 — maths_phase3 (budget et palier)
+Question : `estimer.py` classe la phase 3 en palier grand (mot-clé « securite », présent dans mes exigences reportées E-04 / ErreurReference) : 2,00 à 5,99 USD en opus, 1,00 à 2,99 USD en sonnet (jugé inadapté). La borne haute dépasse le plafond de 5,00 USD. Que fais-tu ?
+Options : A découper en deux tâches, 3a composants et 3b liaison au moteur + mesure WASM (recommandée : chaque moitié est sous le plafond et le classement « sécurité » ne concerne que 3b) / B garder la tâche entière en sonnet, avec bascule en opus seulement sur échec constaté (la borne basse est sous le plafond, le périmètre mesuré inclut BRAINIAC Console) / C garder la tâche entière en opus
+En attendant : lecture du cahier et des `preview.html` de Tableau Pixel, sans écriture de code.
+Réponse : 
+(Consigné par l'agent, 2026-09-29) Réponse donnée en session : B. Tâche entière en sonnet, bascule en opus seulement sur échec constaté ; plafond de 5,00 USD par tâche.
+
+## 2026-09-29 — maths_phase3 (l'app est blanche sous la CSP ; suite de session)
+Question : l'observation en Firefox réel (première de l'app) montre que **la page reste vide** : le `<script type="module">` inline que Trunk injecte pour démarrer le WASM est bloqué par la CSP (`script-src 'self' 'wasm-unsafe-eval'`, sans `'unsafe-inline'`), dans `app/index.html` (meta) et dans `netlify.toml` (en-tête). Sans la meta, l'app démarre. La phase 1 avait validé la CSP par lecture et par `trunk build`, jamais dans un navigateur. Que fais-tu ?
+Options : A hash sha256 du script inline dans `script-src` (recommandée : CSP stricte conservée ; le hash change à chaque build, il faut le calculer après `trunk build`, à automatiser) / B configurer Trunk pour sortir le script en fichier externe (`data-no-minify`/pas d'injection inline, à vérifier dans Trunk 0.21.14) : CSP inchangée / C ajouter `'unsafe-inline'` à `script-src` (déconseillée : annule l'intérêt de la CSP). Corriger `index.html` et `netlify.toml` est une modification hors périmètre de la tâche de phase 3, d'où la question.
+En attendant : rien (session bloquée par le hook, 92 min pour 90).
+Réponse : 
+(Consigné par l'agent, 2026-09-29) Réponse donnée en session : A. Hash sha256 du script d'amorçage inline dans `script-src`. À appliquer en nouvelle session : calculer le hash après chaque `trunk build --release` (script sans installation), l'injecter dans `index.html` (meta) et `netlify.toml` (en-tête), puis prouver par un lancement réel (WebDriver headless : la page rend, texte lu, 0 violation CSP en console). Le hash dépend du script exact que Trunk émet : à recalculer à chaque build, avec un test qui échoue si l'en-tête et le build divergent.

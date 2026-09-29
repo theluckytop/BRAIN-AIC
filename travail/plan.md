@@ -1,25 +1,41 @@
-# Plan — BRAINIAC Console, phase 1 : coquille
+# Plan — Application de maths, phase 3 : composants Leptos
 
-**Objectif** : coquille Tauri 2 dans `projet/brainiac-console/` : fenêtre translucide avec repli opaque,
-identité §7, logo SVG en 3 variantes, sélecteur de projets, module d'écriture unique testé, rapport.
-**Périmètre** : `projet/brainiac-console/` ; `travail/`, `humain/a_valider/`, `humain/etat.md`,
-`memoire/`, `pentest/rapports/`. Réseau : `npm create`, `npm install`, `cargo` seulement.
-**Palier de modèle** : recommandé moyen (sonnet) par l'estimateur, qui mesure un `projet/` vide ;
-session courante opus, bascule proposée à l'humain (pas de désescalade en cours de tâche).
-**Conditions de l'approbation du 2026-09-23** : phase 1 seule ; police via `@fontsource` ; `taches/` et
-`pieces_jointes/` en création seule, jamais d'écrasement ; point de contrôle en fin de phase.
-**Hook** : session à 90 min / 300 actions. Si le plafond approche, arrêt propre à la fin d'une étape.
-Jamais de `cd` nu : sous-shell, `--prefix`, `--manifest-path`, `git -C`.
+**Objectif** : dans `projet/maths/app/`, AppShell, ConsigneCard, Whiteboard, MenuButton, Button,
+ExplainPanel et retour de verdict (Leptos 0.8 CSR), reliés au moteur, sur une page de démonstration
+à données fixes. Styles `tokens.css` / `bundle.css` inchangés.
+**Périmètre** : `projet/maths/app/` seulement (`moteur/` intouché : N-01 accepté, reporté).
+Réseau : crates.io et Trunk selon l'accord de la phase 0 ; **aucun `npm install`, aucune installation**
+(pas de `wasm-bindgen-cli`, pas de Selenium). Outils déjà là : Trunk 0.21.14, Firefox (mode
+`--headless --screenshot`), node.
+**Base d'accord** : ligne du 2026-09-29 dans `validations.md` ; tâche `humain/taches/maths_phase3.md` ;
+question budget du 2026-09-29 : **B, tâche entière en sonnet**, opus seulement sur échec constaté.
+**Palier** : moyen (sonnet). Estimé 1,00 à 2,99 USD en sonnet (l'estimateur classe « grand » sur le
+mot-clé « securite » et mesure tout `projet/`, BRAINIAC Console incluse) ; plafond 5,00 USD.
+**Démarrage** : 14:03. Arrêt à 60 min (≈ 15:03) : finir l'étape en cours, consigner, rendre la main.
+**Règles** : jamais de `cd` nu (`--manifest-path`, `git -C`, sous-shell). Preuves `.txt` dans
+`projet/maths/docs/preuves/phase3/`, ouvertes avant citation. Texte de l'élève et messages : texte
+seulement (`{}` de Leptos), jamais `inner_html`. Noir et blanc strict (pas de rouge/vert).
+**Sources** : aperçus `travail/brouillons/tableau-pixel/components/*/preview.html` (copie jetable).
 
 | # | Étape | Critère de réussite | Statut |
 |---|---|---|---|
-| 1 | Échafaudage : `npm create tauri-app` (gabarit vanilla-ts, pour éviter SvelteKit), puis `npm install` de svelte, @sveltejs/vite-plugin-svelte et @fontsource/inter ; `git init` | `npm run build` et `cargo check` passent ; `package-lock.json` et `Cargo.lock` présents | fait |
-| 2 | Module d'écriture unique `ecriture.rs` : canonicalisation, liste blanche, création seule (`create_new`), ajout seul, configuration | `cargo test` vert : `..`, lien symbolique, chemin absolu hors zone, écrasement refusé, ajout conservant l'existant (test 5) | fait : 13 tests |
-| 3 | Configuration et projets (`config.rs`, `projets.rs`) : validation `AGENTS.md`/`.claude/`/`humain/` avec motif, liste persistante (nom, chemin, couleur, dernière ouverture), état « introuvable » | tests unitaires des tests 1 et 10 ; configuration écrite par `ecriture.rs` seulement | fait : 5 tests |
-| 4 | Fenêtre : `transparent`, sans décorations système, barre de titre maison ; composition détectée côté Rust (GTK), repli opaque automatique ; réglage « translucidité » | tests 14 et 15 : mode opaque forcé lisible ; mode repli choisi quand le compositeur ne compose pas | fait : composition détectée ; repli non observable ici |
-| 5 | Interface Svelte : palette, Inter embarquée, grille 8 px, sélecteur toujours visible, états vides, `prefers-reduced-motion` | rendu à 420 px vérifié (capture Firefox sans affichage), contraste AA calculé par script (tests 12, 17, 18, 19) | fait : capture 420 px, contraste 0 échec |
-| 6 | Logo SVG : complet, simplifié, monochrome | rendu à 16, 32, 128 et 512 px capturé et jugé (test 16) | fait : capture jointe |
-| 7 | Démarrage < 2 s mesuré (horodatage Rust du lancement jusqu'au signal « prêt » de l'interface) | mesure consignée | fait : 976 / 981 / 987 ms (débogage) |
-| 8 | Recherche des options interdites (§2 de la proposition de phase 0) | aucune occurrence, sortie jointe | fait : 0 occurrence (git grep) |
-| 9 | `/pentest` sur le périmètre `application` (vague limitée, arbitrée) | rapport dans `pentest/rapports/`, aucun critique ouvert | fait : 0 critique, 0 élevé |
-| 10 | Commit de fin de phase ; relecture `verificateur` ; rapport dans `humain/a_valider/` avec l'estimation de la phase 2 | verdict conforme, rapport déposé | fait : NON CONFORME → 4 écarts corrigés, 3 déclarés |
+| 1 | Squelette : modules `composants/` dans `app/src`, page de démonstration, classes `px-*` de `bundle.css` réutilisées | `cargo check -p app --target wasm32-unknown-unknown` sans erreur | fait : `app/src/composants/`, page de démo ; check wasm32, trunk build OK |
+| 2 | Button (default, primary, ghost, danger), MenuButton (`aria-expanded`), AppShell (grille, tiroir) | rendu fidèle aux `preview.html` (étape 8) ; Tab/Entrée/Espace actionnent tout contrôle | fait : `button.rs`, `menu_button.rs`, `app_shell.rs` ; rendu et clavier : à observer (étape 8) |
+| 3 | ConsigneCard (tag inversé, navigation ◀ n/N ▶) et ExplainPanel (onglets SIMPLE / POURQUOI, `role="tablist"`, flèches) | clavier complet ; texte seul | fait : `consigne_card.rs`, `explain_panel.rs` (ARIA tablist) ; rendu et clavier : à observer (étape 8) |
+| 4 | Whiteboard : canvas, grille 16 px, crayons noir/gris, tailles 1/3/6, gomme, effacer, encoche | dessin à la souris et au clavier-tactile équivalent documenté ; `aria-pressed` sur les outils | fait : `whiteboard.rs`, 3 tests natifs ; dessin à observer (étape 8) |
+| 5 | Verdict : `Juste`, `ASimplifier`, `FormeIncorrecte`, `Faux`, `SaisieInvalide`, `ErreurReference` → libellé, glyphe et inversion, sans rouge/vert ; `role="status"` ; aucune pénalité | table de correspondance testée : 6 cas natifs (`cargo test -p app`), libellés jamais vides ni punitifs | fait : `verdict.rs`, 7 tests natifs (6 cas + mots punitifs) ; relu et rejoué par moi |
+| 6 | Liaison moteur : champ de saisie + `moteur::verifier` sur exercices fixes ; `ErreurReference` = « exercice défectueux », jamais faute de l'élève | test natif : `ErreurReference` ne produit ni « Faux » ni « Juste » ; recherche `inner_html` : 0 occurrence (consignée) | fait : `exercice.rs`, `juger` testé (7 tests) ; `inner_html` : 0 ligne (rejoué) ; 17 tests app, clippy 2 cibles, fmt OK |
+| 7 | Mesure du temps de vérification en WASM (`performance.now`, pires cas de `mesure_temps`) affichée sur une page de mesure, capturée par Firefox headless | < 50 ms en WASM, sortie consignée ; sinon constat et question | à faire |
+| 8 | Captures clair/sombre de chaque composant contre `preview.html` (Firefox headless) ; `prefers-reduced-motion` ; contraste ≥ 4,5:1 calculé sur les couples de tokens réellement utilisés (script node, sans dépendance) | captures comparées et commentées ; 0 couple sous 4,5:1 ; animation absente sous `reduce` | à faire |
+| 9 | Qualité : `cargo test`, `clippy --all-targets -D warnings` (moteur et app), `fmt --check`, `trunk build --release` | 0 échec, 0 avertissement ; taille WASM gzip relevée (< 500 Ko) | à faire |
+| 10 | Commit ; audit `pentest_entrees` + `pentest_config` (CSP, sorties, `inner_html`) avec le diff dans le prompt | 0 critique/élevé ou écarts traités | à faire |
+| 11 | Relecture `verificateur` (une par cycle, max 2 avant escalade), rapport dans `humain/a_valider/`, mémoire, `etat.md`, estimation | verdict rendu, rapport déposé | à faire |
+
+**Attention** : 3 relectures NON CONFORME sur une même heuristique ont coûté la phase 2. Ici, fixer
+d'abord les critères vérifiables (table du verdict, contraste, clavier) et les tester avant de
+soumettre. À `tentatives_max` (3) échecs sur un même problème : arrêt, `quarantaine/`, leçon, question.
+
+**Suivi (2026-09-29, ≈ 14:35)** : étapes 1 à 6 faites et rejouées par moi. Contraste : script
+`app/scripts/contraste.mjs`, 16 couples de tokens, 0 échec (pire texte 6,09:1). Étapes 7 et 8
+(mesure WASM, captures, clavier, dessin, reduced-motion, contraste appliqué) confiées à `executant`
+via geckodriver. Web-sys ajouté à `app/Cargo.toml` (déjà dans `Cargo.lock`, aucun téléchargement).

@@ -62,3 +62,110 @@ Ajout uniquement. Relues au démarrage de chaque tâche. Format :
 - Symptôme : `*.log` figure dans le `.gitignore` du gabarit ; les journaux de lancement n'auraient pas été commités.
 - Correctif : copies en `.txt` (README de provenance).
 - Règle : nommer les preuves `.txt` d'emblée.
+
+## 2026-09-24 — Récidive : un `cd` nu dans une commande de lecture
+- Symptôme : `cd projet/brainiac-console && ls …` a verrouillé la session (garde-fou : « lancé depuis …/projet/brainiac-console ») ; le `cd` de retour était refusé lui aussi, ainsi que Edit.
+- Cause réelle : `cd` écrit par réflexe en groupant des lectures, alors que la leçon du 2026-09-23 l'interdit. Une leçon lue au démarrage ne protège pas d'un réflexe.
+- Correctif : l'humain a tapé `! cd /home/aouadon/BRAIN-AIC/BRAINIAC`. Aucun contournement de ma part.
+- Règle : lire dans `projet/` par `ls chemin`, `git -C`, `--prefix` ou l'outil Read, jamais par `cd`, même pour une simple lecture.
+
+## 2026-09-24 — Un test ne peut pas se dire « réel » s'il a été retouché
+- Symptôme : `questions_extrait_reel` prétendait reproduire `humain/questions.md`, mais sa constante était modifiée ; la relecture a montré que le fichier réel donne 0 question en attente, pas 1.
+- Cause réelle : extrait adapté pour obtenir le cas voulu, étiqueté « réel » sans le dire.
+- Correctif : test renommé « synthétique », cas de la note « (Consigné par l'agent…) » ajouté.
+- Règle : un jeu de données est « réel » seulement s'il est copié tel quel ; sinon « synthétique », dit en toutes lettres.
+
+## 2026-09-24 — Les sous-agents écrivent un `cd` malgré l'interdiction du prompt
+- Symptôme : les six `executant` et `verificateur` lancés ont chacun écrit un `cd` dans leur premier appel Bash, alors que la consigne l'interdisait (sans effet, leur shell étant réinitialisé).
+- Cause réelle : réflexe de l'agent ; la règle vit dans mon contexte, pas dans le leur.
+- Correctif : consigne répétée en tête de chaque prompt ; aucune conséquence cette fois.
+- Règle : répéter la règle du `cd` en première ligne de tout prompt de sous-agent, et vérifier leurs rapports plutôt que de s'y fier.
+
+## 2026-09-24 — Une preuve citée doit survivre au vidage des brouillons
+- Symptôme : les rapports d'audit citent `travail/brouillons/phase2_diff.txt`, un espace jetable que `/cloture` vide.
+- Cause réelle : diff déposé en brouillon pour le donner aux auditeurs, sans prévoir sa conservation.
+- Correctif : copie dans `docs/preuves/phase2/diff_audite.txt` avant tout vidage.
+- Règle : ce qu'un rapport cite est copié dans un lieu durable au moment où il est cité.
+
+## 2026-09-28 — `CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1` ne protège pas d'un `cd` explicite
+- Symptôme : `cd projet/maths/app && trunk build --release` a laissé le répertoire courant dans
+  `app/` pour l'appel Bash suivant, alors que le réglage du 2026-09-24 (commit `972f10e`) est censé
+  ramener le shell à la racine après chaque commande.
+- Cause réelle : ce réglage rattrape la dérive *entre deux appels* de l'outil Bash, mais un `cd`
+  suivi de `&&` dans la même commande déplace bien le répertoire pour la suite de cette commande-là ;
+  je n'ai pas vérifié `pwd` avant de continuer, et l'appel suivant s'est retrouvé dans `app/`.
+- Correctif : `cd` revenu manuellement à la racine ; les commandes suivantes de la phase ont utilisé
+  un sous-shell `( cd chemin && commande )`, qui ne change pas le répertoire de l'appel Bash
+  lui-même.
+- Règle : le réglage du 2026-09-24 n'est pas un filet de sécurité contre un `cd` écrit dans la même
+  commande. Toujours passer par un sous-shell `( cd … && … )`, jamais un `cd` nu même suivi d'un
+  `&&`, et vérifier `pwd` après toute commande qui en contient un.
+
+## 2026-09-28 — Récidive du `cd` nu, en préparant un script Python
+- Symptôme : `cd projet/maths/moteur/src && python3 - <<EOF …` a laissé la session dans `src/` ;
+  remarqué au retour de la commande, `cd` de retour immédiat.
+- Cause réelle : le chemin relatif du script a appelé un `cd` par réflexe, une heure après avoir écrit
+  la leçon précédente sur le même sujet. Troisième occurrence dans cet espace.
+- Correctif : les scripts suivants ont ouvert leurs fichiers par chemin absolu.
+- Règle : un script écrit en ligne ouvre ses fichiers par chemin absolu ; jamais de `cd` pour lui
+  fournir un répertoire courant. Relire `pwd` après toute commande qui en contiendrait un.
+
+## 2026-09-28 — Mesurer le « pire cas » demande de le chercher, pas de le supposer
+- Symptôme : la preuve de phase 2 annonçait un pire cas de 5,6 ms ; la relecture a trouvé des saisies
+  valides à 430 ms (debug), l'audit une autre piste de déni de service.
+- Cause réelle : pire cas choisi à l'intuition (une saisie « longue »), sans raisonner sur ce qui
+  maximise le coût (puissances élevées de facteurs distincts, opérations répétées sur de grands
+  nombres) ; et une borne par nombre ne borne pas le nombre d'opérations.
+- Correctif : budget de calcul global, pires cas des relecteurs ajoutés au programme de mesure.
+- Règle : une exigence de temps sur une saisie non fiable se garantit par une borne de coût, puis se
+  mesure sur des cas construits pour l'atteindre. « Pire cas raisonnable » ne vaut pas preuve.
+
+## 2026-09-28 — Des règles au cas par cas ne convergent pas : fixer d'abord le sens de l'erreur
+- Symptôme : deux relectures NON CONFORME de suite sur la forme simplifiée ; chaque correctif
+  bouchait les cas cités et en ouvrait d'autres, jusqu'à sanctionner des réponses justes.
+- Cause réelle : aucune décision préalable sur l'erreur acceptable (laisser passer un calcul non
+  fait, ou sanctionner une réponse juste) ; les règles étaient écrites contre les exemples des
+  relecteurs, pas contre un principe.
+- Correctif : décision de l'humain (« jamais de sanction à tort ») avant tout nouveau code.
+- Règle : devant une heuristique qui doit trancher, écrire d'abord quel type d'erreur est tolérable,
+  puis tester la règle sur un grand nombre de cas aléatoires (comme l'a fait la relecture :
+  14 258 expressions) avant de la soumettre.
+
+## 2026-09-29 — Quatrième `cd` nu : `cd /tmp` pour lire les fichiers d'un relecteur
+- Symptôme : `cd /tmp && wc -l verif2_*.txt …` en début de reprise ; sans effet cette fois (le
+  réglage du commit 972f10e ramène le shell à la racine après chaque commande), `pwd` vérifié aussitôt.
+- Cause réelle : des fichiers hors de l'espace (`/tmp/verif2_*`) ont semblé « hors règle » ; le
+  réflexe du répertoire courant a pris le dessus sur la leçon, lue une heure avant.
+- Correctif : lectures suivantes par chemins absolus ou par une variable (`S=…; $S/…`).
+- Règle : l'interdiction du `cd` nu vaut pour tout répertoire, y compris `/tmp` et le bloc-notes ;
+  pour plusieurs fichiers d'un même dossier, une variable de chemin plutôt qu'un `cd`.
+
+## 2026-09-29 — Un correctif de fin de cycle doit borner sa règle à ce qu'il vise
+- Symptôme : le refus des exposants négatifs (visant `(x^2+2x+1)^-1`) a refusé aussi
+  `(1/2)^-1(x+1)` et `x^-1(x+1)`, formes justes ; relevé par la relecture et l'audit de clôture.
+- Cause réelle : règle écrite sur le motif (`Pow(_, n<0)`) et non sur l'objet visé (une somme en `x`) ;
+  pas de cas légitimes voisins dans les tests ajoutés.
+- Correctif : condition restreinte à une base somme contenant `x`, trois cas légitimes ajoutés.
+- Règle : tout refus ajouté s'accompagne, dans le même test, de ses voisins légitimes (même
+  motif, autre base) ; sous le principe « jamais de sanction à tort », ce sont eux qui comptent.
+
+## 2026-09-29 — Une CSP « conforme » par lecture n'est pas une app qui démarre
+- Symptôme : en phase 3, premier vrai lancement dans Firefox : page blanche. La CSP de la phase 1
+  (approuvée, auditée, `trunk build` OK) bloque le script inline d'amorçage de Trunk.
+- Cause réelle : les preuves de la phase 1 étaient des lectures de configuration et un build ; aucune
+  n'exécutait l'app dans un navigateur. Le pentest de configuration ne peut pas voir cela.
+- Correctif : en attente de décision humaine (question du 2026-09-29).
+- Règle : toute phase qui pose une CSP ou un en-tête est prouvée par un lancement réel (WebDriver
+  headless : la page rend, texte lu). Ce test entre dans le critère de sortie de la phase 1 des
+  projets suivants, et dans la phase 3 avant toute capture.
+
+## 2026-09-29 — Le compteur de durée du garde-fou court depuis le début de la session, pas de la tâche
+- Symptôme : arrêt du hook à 92 min alors que je comptais 60 min depuis le démarrage de la phase 3
+  (14:03) ; l'agent `executant` des étapes 7-8 a été coupé en plein travail, avec des processus
+  (geckodriver, serveurs locaux) restés ouverts et un clavier.txt d'un harnais bugué.
+- Cause réelle : j'ai chronométré la tâche, pas la session ; la session comprenait la clôture de la
+  phase 2 et deux relectures avant elle.
+- Correctif : aucun contournement ; état consigné, arrêt.
+- Règle : lire l'heure de démarrage de la SESSION (pas de la tâche) pour le budget ; en début de
+  session, s'il reste moins de 60 min, ne lancer que des étapes qui tiennent, sans agent en tâche de
+  fond qui ouvre des processus.
