@@ -1,6 +1,9 @@
 # État — mis à jour le : 2026-09-30 (session 7, 02:56)
 
-## À valider — maths_corpus livré : `a_valider/2026-09-30_maths_corpus_rapport.md`
+## maths_corpus : clos, APPROUVÉ par toi le 2026-09-30 (`validations.md`) ; prochaine tâche : `maths_parcours`
+- À lancer en **nouvelle session, palier sonnet** : estimation `estimer.py`, puis plan. Aucun réseau à l'exécution.
+
+## Rapport de clôture : `a_valider/2026-09-30_maths_corpus_rapport.md`
 - **Étape 6 faite** : relecture `verificateur` (sonnet) de `f2ba25e` : **CONFORME**, 0 bloquant, 4 écarts mineurs du README
   corrigés (commit `11b65e2` dans `projet/maths`, non relu par un tiers).
 - Chiffres : 166 notions, 841 exercices (titres + liens), 28 extraits dont **10 douteux** (et non 9 comme annoncé
