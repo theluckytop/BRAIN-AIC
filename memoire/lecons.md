@@ -216,3 +216,29 @@ Ajout uniquement. Relues au démarrage de chaque tâche. Format :
 - Correctif : erratum de clôture, taille remesurée sur le build final, temps ramené au seul fichier archivé.
 - Règle : avant de citer un chiffre, comparer l'heure du fichier de preuve à celle du dernier commit de code
   (`ls -l --time-style` contre `git log -1 --format=%ci`) ; un chiffre sans fichier archivé ne se cite pas.
+
+## 2026-09-29 — Une évolution lourde lancée dans une session déjà expirée n'aboutit à rien
+- Symptôme : sous-agent lancé pour une évolution de l'app (clé API, responsivité, captures) : refus du hook
+  dès le premier appel Bash (103 min > 90) ; aucun travail possible.
+- Cause réelle : le compteur court depuis le début de la session, attente de l'humain comprise (déjà noté
+  les 2026-09-24 et 2026-09-29) ; la demande a été déléguée sans vérifier le temps restant.
+- Correctif : aucun contournement ; état et question consignés, arrêt.
+- Règle : avant de déléguer une tâche longue, vérifier le temps de session écoulé ; au-delà de 60 min,
+  la lancer en nouvelle session plutôt que d'empiler.
+
+## 2026-09-30 — `trunk serve` donne une page blanche avec la CSP de l'app maths
+- Symptôme : app lancée par `trunk serve` (commande du README) : page entièrement blanche.
+- Cause réelle : la CSP de `index.html` n'autorise que le hash du script d'amorçage du build **release** ; le build
+  de dev cite un autre `.js` haché et ajoute un script de rechargement : les deux sont bloqués, le wasm ne démarre
+  pas. En plus, `trunk serve` réécrit `dist/` avec ce build de dev.
+- Correctif : `trunk build --release`, `node scripts/csp.mjs --verifier` (OK), puis service statique de `dist/`
+  (`python3 -m http.server --directory projet/maths/app/dist`).
+- Règle : pour montrer l'app maths, servir le build release vérifié, jamais `trunk serve` ; corriger le README.
+
+## 2026-09-30 — maths_corpus 5d : plafond d'appels réseau dépassé (≈ 510 pour ~350)
+- Symptôme : passe de recherche Wikiversité lancée deux fois en mode réseau ; ≈ 510 tentatives au total.
+- Cause réelle : en mode réseau, `construire.py` rejouait tous les appels sans relire le cache ; chaque relance
+  refaisait les ~170 appels de base. Le compteur d'appels ne couvrait que la passe nouvelle.
+- Correctif : requêtes déjà en cache jamais rejouées ; `MAX_RECHERCHES = 0` sans nouvelle décision (commit f2ba25e).
+- Règle : tout script réseau lit son cache d'abord et compte **tous** les appels de l'exécution contre le plafond,
+  relances comprises ; la consigne au sous-agent l'exige explicitement.

@@ -1,4 +1,76 @@
-# État — mis à jour le : 2026-09-29 (session 3, `/cloture` de la phase 3 faite)
+# État — mis à jour le : 2026-09-30 (session 5)
+
+## En cours — maths_corpus (corpus de cours CM2 à Terminale)
+- **Session 6 (2026-09-30, 01:19)** : étape 5d lancée (`executant`, sonnet). Estimation `estimer.py` du jour :
+  6,4 à 19,3 USD, gonflée par le périmètre `projet/` entier (273 fichiers) ; estimation initiale 1,26 à 3,77 USD.
+  Dépense relevée ≈ 300 k jetons sonnet (≈ 1,5 USD) + 5d ≈ 1 USD : plafond de 5 USD tenu selon mon relevé,
+  à confirmer par le coût réel. Ensuite : contrôle de pertinence, puis étape 6.
+- **5d faite, objectif non atteint** (02:10, commit `f2ba25e`) : 28 extraits sur 166 (26 avant), 9 douteux ; CM2 0,
+  Seconde 1 (douteux) ; Terminale : Matrices et lois discrètes retirés, TVI et complexes 15/18 douteux.
+  **Écart** : ≈ 510 appels Wikiversité au lieu de ~350 (relance qui rejouait le cache ; corrigé, leçon écrite).
+  Coût executant : ≈ 99 k jetons sonnet, 40 outils, 51 min. **Question posée** (A clore et traiter le cours
+  manquant dans `maths_parcours` / B autre source / C finir la recherche Wikiversité).
+- Arrêt 02:45 (86 min sur 90), sans réponse à la question. Reprise en nouvelle session : lire la réponse dans
+  `questions.md`, relecture `verificateur` de la v2 (commit `f2ba25e`), puis étape 6 selon la réponse.
+  Deux boucles d'attente orphelines laissées par l'executant ont été arrêtées (aucun appel réseau).
+- **Réponse A** (02:45) : corpus clos tel quel, trous marqués ; cours manquant traité dans `maths_parcours`.
+  Reprise en nouvelle session : relecture `verificateur` de `f2ba25e`, rapport `a_valider/` (corpus livré, 28/166
+  extraits dont 9 douteux, écart ≈ 510 appels), mémoire (décision), estimation, puis `maths_parcours` après ton
+  approbation dans `validations.md`.
+- **Reprise 2026-09-30 (session 5)** : accord forge.aeif.fr présent dans `validations.md`. Étapes 5b (référentiel
+  Coopmaths de la forge → notions) et 5c (filtre des extraits faibles) confiées à `executant` en sonnet ; puis contrôle
+  de pertinence refait, étape 6 (commit, relecture, rapport).
+- **Bloqué 5b** : forge.aeif.fr n'existe plus (vérifié par l'humain hors bac à sable) ; dépôt probable sur
+  forge.apps.education.fr. **Accord A' inscrit** (2026-09-30), dépôt vérifié (HEAD 11847f7) ; 5b relancée (executant).
+- **5b faite** : 166 notions (thèmes Coopmaths, commit forge 11847f7), 841 exercices rattachés, schema_version 2 ;
+  mais 26 notions seulement avec extrait (CM2 et Seconde : 0). Commit `3c26fe9`. Question posée (A passe de recherche
+  Wikiversité / B livrer tel quel / C retirer les extraits mal appariés). Coût executant du jour ≈ 190 k jetons sonnet.
+- **Réponse A** (01:17) : passe de recherche Wikiversité, étape 5d du plan. **Reportée en nouvelle session** (63 min
+  écoulées sur 90 ; la passe 5b a pris 29 min). App montrée : build release servi depuis `dist/` (trunk serve = page
+  blanche à cause de la CSP, leçon écrite). Parcours : pas encore construit (`maths_parcours` après le corpus).
+- Reprise : lire l'étape 5d de `travail/plan.md`, déléguer à `executant` (sonnet), contrôle de pertinence, puis étape 6. Question dans
+  `questions.md` (A ouvrir l'hôte / B lever le bac à sable pour le clone / C clone par toi / D renoncer). 5c fait :
+  utile 17/21 (hier 15/21), Seconde et Terminale sous le seuil. Commit `1740291` dans `projet/maths`. Relecture et
+  rapport en attente de la réponse.
+- Tâche `humain/taches/maths_corpus.md`, accord réseau lecture seule du 2026-09-29 dans `validations.md`.
+- Estimé 1,26 à 3,77 USD (sonnet), plafond 5,00 USD tenu. Pilotage en opus (palier courant), exécution
+  déléguée à `executant` en **sonnet**. Démarrage 22:40, arrêt visé ≈ 23:40.
+- Plan : `travail/plan.md`. **Étapes 1 à 5 faites** (23:41), étape 6 (commit, relecture, rapport) non faite.
+- Résultat : `projet/maths/corpus/` (script `construire.py` rejouable, `--hors-ligne` vérifié ; `sortie/corpus.json`
+  245 538 o, 28 090 o gzip ; `couverture.md` recalculée à l'identique). 8 niveaux avec source officielle ;
+  **51 notions seulement** (Seconde 1, CM2 2) ; Terminale sans exercice ; extraits utiles 15/21 au contrôle
+  (`docs/pertinence.md`), 3e et Seconde sous le seuil.
+- Écarts : référentiel Coopmaths absent du dépôt GitHub (sur forge.aeif.fr, hors accord) ; exercices Coopmaths
+  en **AGPL-3.0** (pas CC BY-SA) : titres et liens seulement ; Wikibooks écarté (correspondances aberrantes).
+  Un `rm -rf` de l'executant bloqué par le hook, non contourné. Rien de commité.
+- **Question posée** dans `questions.md` (A étendre l'accord à forge.aeif.fr / B garder et filtrer / C notions à la main).
+  **Réponse : A** (2026-09-30 00:05). Accès à forge.aeif.fr dès que la ligne est dans `validations.md` (absente à 00:05).
+- Arrêt à 23:45 (65 min, au-delà des 60 visées). Reprise : réponse à la question, filtre des extraits faibles
+  dans le script, commit, relecture `verificateur`, rapport `a_valider/`, mémoire, estimation.
+- Coût : executant sonnet ≈ 110 k jetons, 49 outils, 58 min ; réel en USD non lisible depuis l'agent.
+- Choix : corpus avant la responsivité + clé API persistante, car il débloque `maths_parcours` et porte
+  un accord écrit ; la question « responsivité » (A/B) a reçu la réponse **A** (22:50) :
+  responsivité, clé API persistante et changements du cahier des charges en **nouvelle session** (sonnet).
+- **Ordre décidé par toi** : corpus → parcours (dès ton approbation du corpus dans `validations.md`) →
+  responsivité + clé API persistante + cahier des charges (nouvelle session).
+- App lancée à ta demande : build de production servi sur http://127.0.0.1:8080/ (serveur Python local).
+
+
+## Arrêt du garde-fou : évolution « responsivité + clé API persistante » NON commencée
+- Demande (sous-agent, tâche A à D : clé `localStorage` avec RENOUVELER/EFFACER, responsivité, outil DÉPLACER,
+  captures Firefox, commit « Phase 3bis … ») : le hook a refusé le tout premier appel Bash
+  (« Budget épuisé, durée 103 min > 90 »). Lu seulement : `travail/plan.md` (ancien plan de la phase 3bis, non modifié).
+- **Rien n'a été écrit dans `projet/maths/`, aucun commit, aucun processus lancé** (ni geckodriver, ni serveur).
+  Les fichiers `app/src/*`, `index.html`, `composants.css` n'ont pas été lus.
+- Pour reprendre : nouvelle session (compteur remis à zéro), même demande ; question dans `humain/questions.md`.
+- **Nouvelle demande (parcours par niveau, menu ☰ → Parcours, API de cours)** : consignée dans `humain/questions.md` (3 points
+  bloquants : quelles API, quand les appeler, modale ou onglet + liste de niveaux). Rien de fait. Session à 267 min, arrêt du
+  garde-fou. À traiter dans la nouvelle session, après la responsivité + clé API persistante.
+- **Parcours par niveau : décisions de l'humain reçues** (2026-09-29) : mélange niveaux officiels (data.education.gouv.fr) +
+  cours Wikiversité/Wikibooks et Coopmaths ; fenêtre « Parcours » en **modale** ; niveaux **CM2 à Terminale** ; corpus en amont.
+  Repérage des API consigné dans `humain/questions.md`. À faire en nouvelle session : tâche à déposer par l'humain dans
+  `humain/taches/` + ligne dans `validations.md` (accord réseau lecture seule pour la construction du corpus), puis estimation.
+- Rappel : relecture `verificateur` de la phase 3bis, mémoire, `etat.md` et estimation restent à faire.
 
 **Tâche en cours** : aucune. Phase 3 de l'app de maths **close côté agent, avec réserve clavier** (ta
 décision A) ; en attente de ta validation.
