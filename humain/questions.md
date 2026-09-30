@@ -184,3 +184,86 @@ C finir les recherches restantes sur Wikiversité (~330 appels, gain probablemen
 En attendant : rien d'autre sur le corpus ; relecture `verificateur` de la v2 possible sans décision.
 Réponse : 
 (Consigné par l'agent, 2026-09-30 02:45) Réponse donnée en session : **A** — clore le corpus tel quel (trous marqués), étape 6 ; cours manquant traité dans `maths_parcours`.
+
+## 2026-09-30 03:05 — maths_parcours : que devient le bandeau sans énoncés dans le corpus ?
+Question : le critère « choisir un niveau change les énoncés du bandeau » suppose des énoncés. Le corpus n'en contient pas :
+841 exercices = titres + liens Coopmaths (AGPL-3.0, pas de copie), 28 extraits de cours (10 douteux), 100 % GÉNÉRÉE.
+Le bandeau (`ConsigneCard`) affiche aujourd'hui 3 étapes en dur (titre + texte). Que doit-il montrer par niveau ?
+Options : A une étape par notion du niveau : titre de la notion, extrait de cours s'il existe (marqué douteux le cas échéant),
+sinon la liste des titres d'exercices avec lien Coopmaths ; pas d'énoncé inventé (recommandée, parce qu'elle tient dans le
+corpus livré et le périmètre de la tâche) / B en plus, l'agent rédige de courts énoncés et fiches, marqués GÉNÉRÉE et à relire
+par toi : plus de valeur pédagogique, mais contenu mathématique non vérifié et dépassement probable du plafond de 5 USD /
+C garder les 3 énoncés en dur pour l'instant et n'utiliser le parcours que pour le contexte de Haiku.
+Autre point (non bloquant) : la tâche suppose responsivité et clé API persistante déjà faites, ce qui est faux ; je fais la
+modale adaptée au téléphone, mais ne touche ni à la clé ni au reste de la responsivité (ordre décidé : après le parcours).
+En attendant : étapes 1, 2 et 4 (chargement du corpus, modale, prompt de Haiku), qui ne dépendent pas de la réponse.
+Réponse : 
+(Consigné par l'agent, 2026-09-30 03:09) Réponse donnée en session : **A** (une étape par notion : titre, extrait s'il existe, sinon titres d'exercices avec liens ; aucun énoncé inventé) ; lancer les étapes 1, 2 et 4.
+
+## 2026-09-30 04:30 — maths_parcours_v2 : modale-programme, onglet Cours, énoncés Haiku, sources
+Question : ta demande (programme complet du niveau dans la modale ; onglet « Cours » déverrouillé au choix d'un chapitre ; chaque énoncé généré par Haiku ; chaque source menant à un cours ou à des sujets d'examen pour le supérieur) sort de la tâche approuvée. Trois décisions bloquantes :
+1. Autorises-tu l'appel à l'API Claude (Haiku) pour générer les énoncés, avec la clé saisie par l'utilisateur, jamais partagée ? (accord séparé exigé par la phase 0, ligne à écrire dans `validations.md`)
+2. Supérieur : quels niveaux (L1, L2, prépa, BTS…) et quelle source de sujets d'examen (à nommer, lecture seule, nouvel accord réseau) ? Le corpus actuel s'arrête à la Terminale et n'a aucun sujet.
+3. 138 chapitres sur 166 n'ont pas de cours : A onglet « Cours » avec mention « cours manquant » (recommandée : aucun contenu inventé, tient dans le plafond) / B l'agent rédige des fiches GÉNÉRÉE à relire par toi (dépassement probable de 5 USD).
+Options : voir `humain/a_valider/2026-09-30_maths_parcours_v2_tache.md` (brouillon de tâche à déposer par toi dans `humain/taches/`).
+En attendant : aucune modification de `projet/maths` ; le rapport `maths_parcours` reste en attente de ton approbation.
+Réponse : 
+(Consigné par l'agent, 2026-09-30) Réponse donnée en session : « A pour les trois questions, tu as l'accord ». Lecture : (1) oui à l'appel à Haiku, clé saisie par l'utilisateur ; (3) A, mention « cours manquant », rien d'inventé. (2) n'avait pas d'option A (niveaux et source des sujets à nommer) : **non tranchée**, à préciser. Aucun accord n'est valable tant qu'il n'est pas dans `validations.md`.
+(Consigné par l'agent, 2026-09-30) Réponse à (2) : « commencer avec L1 Math-info ; prendre les sources universitaires disponibles en France pour le programme, les cours et les partiels ».
+Précision nécessaire : « les sources disponibles » n'est pas un accord réseau exploitable (AGENTS.md : accès réseau = accord, hôtes nommés, lecture seule). Je n'ai fait aucune recherche. Proposition de liste à confirmer ou corriger, **de mémoire, non vérifiée** :
+ - Exo7 (exo7.emath.fr) : cours et exercices L1, corrigés, partiels ; licence CC BY-NC-SA à vérifier (« NC » : usage non commercial).
+ - Unisciel (unisciel.fr, UNT) : cours et exercices de licence.
+ - fr.wikiversity.org, fr.wikibooks.org (déjà autorisés pour le corpus, lecture seule).
+ - Programme : pas de programme national de L1 (maquettes propres à chaque université) : soit une maquette publique nommée (laquelle ?), soit le plan d'Exo7.
+ - Partiels : sites d'universités (hôtes à nommer une par une) ou annales d'Exo7.
+Options : A accord pour Exo7 + Unisciel + Wikiversité/Wikibooks, programme = plan d'Exo7 complété par une maquette de L1 Math-info que tu nommes, partiels = ceux d'Exo7 et des universités que tu nommes (recommandée : hôtes précis, licences vérifiables, périmètre tenable) / B laisser l'agent chercher les hôtes universitaires (refusée d'office : hors règle) / C L1 reporté, la tâche v2 ne couvre que CM2–Terminale.
+Réponse : 
+(Consigné par l'agent, 2026-09-30) Réponse donnée en session : « Choix B et fais-le no matter what ». Non exécutable en l'état : aucune ligne dans `validations.md` (accord réseau, hôtes non nommés). Rien lancé. Ligne à écrire par l'humain pour débloquer B : voir la réponse de l'agent en session.
+
+## 2026-09-30 04:45 — maths_parcours_v2 (budget)
+Question : `estimer.py` donne 8,54 à 25,62 USD en sonnet (plafond 5,00 USD DÉPASSÉ, « découpe la tâche »). La mesure porte sur `projet/` entier (438 fichiers, artefact connu, cf. parcours : 8,4-25,3 annoncés, ≈ 1,5-4,5 estimés à la main). Mon ordre de grandeur : 2,5 à 5,5 USD pour l'ensemble ; la borne haute dépasse le plafond. Tu découpes ?
+Options : A deux tâches : v2a (app : modale-programme, onglet Cours, énoncés Haiku, CM2 à Terminale, sans réseau) puis v2b (corpus L1 Math-info : recherche des sources, partiels, hôtes et licences, 300 requêtes) (recommandée : v2a ne dépend pas du réseau, v2b est la partie la plus incertaine et se plafonne d'elle-même) / B garder la tâche entière, plafond 5,00 USD maintenu, arrêt et question si atteint / C relever le plafond (à toi de fixer le montant).
+En attendant : rien dans `projet/maths` ; plan non écrit (dépend de ta réponse). Reprise en nouvelle session sonnet.
+Réponse : 
+(Consigné par l'agent, 2026-09-30) Réponse donnée en session : **A** — découpe en v2a (app, sans réseau) puis v2b (corpus L1 Math-info). Tâches prêtes dans `a_valider/maths_parcours_v2{a,b}_TACHE_A_COPIER.md`, à copier par l'humain avec une ligne `validations.md` par tâche.
+
+## 2026-09-30 — maths_parcours_v2a : session expirée, étapes 3-4 à reprendre
+Question : le garde-fou a coupé la session (868 min > 90) juste après la coupure API de l'agent des étapes 3-4 ; ton « reprend » n'y change rien, le compteur court depuis le début de la session. Reprends-tu en nouvelle session (sonnet, lancée depuis la racine de BRAINIAC) ? Et v2b : copies-tu la tâche et ajoutes-tu sa ligne `validations.md` (aucune ligne ne nomme encore `maths_parcours_v2b.md`) ?
+Options : A nouvelle session : je contrôle d'abord processus et état git, reprends l'agent `ad211641083dba43c`, puis étapes 4-6 (recommandée) / B v2a arrêtée là : étapes 1-2 commitées par toi après relecture, sans énoncés Haiku.
+En attendant : rien (session bloquée). `humain/etat.md` est à jour pour la reprise.
+Réponse : 
+
+## 2026-09-30 — maths_parcours_v2a : clôture (points à trancher)
+Question : v2a est livrée (relecture CONFORME avec réserves, 0 bloquant). Cinq points sont dans `a_valider/2026-09-30_maths_parcours_v2a_rapport.md`. Lesquels corriges-tu avant le commit, et lances-tu v2b ?
+Options : A corriger le point 1 (chapitre restauré au rechargement) en nouvelle session, reporter 3 à 5 à la responsivité (recommandée : seul vrai défaut d'usage, petit) / B commiter tel quel, tout reporter / C corriger aussi le point 2 (bouton réservé aux chapitres avec cours).
+En attendant : rien ; `etat.md` à jour.
+Réponse : 
+
+## 2026-09-30 — maths : carrousel d'une notion, notation mathématique, figures et couleur dans le chat (nouvelle demande)
+Demande (reformulée) : (1) le carton d'annonce ne montre qu'un énoncé et une notion, avec des flèches vers la notion suivante, comme l'ancien carrousel ;
+(2) énoncés et chat en écriture mathématique (ℝ², pas de syntaxe brute) ; (3) le chat, relié à Haiku, produit schémas, tableaux, figures géométriques et
+représentations dans le plan ; (4) couleur autorisée dans le chat seulement.
+Cette demande sort de la tâche v2a approuvée : il faut une tâche déposée par toi et un accord écrit par toi. Rien n'est commencé dans `projet/maths`.
+Brouillon : `a_valider/maths_parcours_v3_TACHE_A_COPIER.md` (v3a carrousel + notation ; v3b figures + couleur).
+Questions bloquantes :
+1. Notation : `R\{2}` (ℝ privé de 2) et `R²` (le plan) sont deux objets ; je comprends « ℝ∖{2} et ℝ² bien écrits », pas « remplacer l'un par l'autre ». Correct ?
+2. Couleur : l'accord de phase 0 (2026-09-28, §6) impose noir et blanc strict. Tu l'assouplis pour le chat seulement : à écrire dans le registre des validations.
+3. Découpe : v3b (figures produites par Haiku) dépasse probablement le plafond de 5 USD ; v3a d'abord ?
+Options : A v3a puis v3b ; notation par KaTeX (installé, à vérifier sous la CSP) ; Haiku renvoie une spécification structurée et non du SVG (recommandée : KaTeX couvre toute la notation, une spécification validée évite l'injection) / B v3a seul avec table Unicode, figures plus tard / C tout en une tâche, plafond relevé à ta valeur.
+En attendant : rien dans `projet/maths`.
+Réponse : 
+
+## 2026-09-30 — maths_parcours_v3a : « coller le bout de texte que je t'ai donné »
+Question : je ne retrouve pas ce texte (ni dans la session, ni dans `humain/`, `memoire/`, `travail/`). Peux-tu le recoller ou dire où il se trouve ? Veux-tu le coller dans le chat de l'app et le voir en écriture mathématique, ou autre chose ?
+Options : A le coller dans le chat de l'app, formules rendues par KaTeX (recommandée : c'est ce que l'étape 3 met en place) / B autre usage, à préciser.
+En attendant : étape 3 en cours ; elle rend aussi les messages de l'utilisateur, et accepte `$…$`, `$$…$$`, `\(…\)`, `\[…\]`.
+Réponse : 
+(Consigné par l'agent, 2026-09-30) Réponse donnée en session : **A** — coller le texte dans le chat de l'app, formules rendues par KaTeX.
+
+## 2026-09-30 — maths_parcours_v3a : session arrêtée (169 min > 90) ; suite ?
+Question : v3a est livrée (rapport `a_valider/2026-09-30_maths_parcours_v3a_rapport.md`, à approuver par une ligne `validations.md`). Pour la suite, lances-tu en nouvelle session l'audit ciblé du tuteur Anthropic (jamais audité, gravité moyenne) ?
+Options : A nouvelle session sonnet : audit ciblé du tuteur (revue seule, sans réseau), puis correction du `README.md` (recommandée : seul constat moyen ouvert, et il porte sur la clé API) / B approuver et commiter v3a d'abord, audit ensuite / C passer à v3b (figures, couleur), qui demande sa propre tâche et son accord.
+En attendant : rien (session bloquée). `humain/etat.md` est à jour pour la reprise.
+Réponse : 
+(Consigné par l'agent, 2026-09-30) Réponse donnée en session : **A** (audit ciblé du tuteur, puis `README.md`) ; message coupé après « choix A et » : la suite est à préciser.
+(Consigné par l'agent, 2026-09-30) Précision donnée en session : **A et C en parallèle**. v3b (C) ne démarre qu'avec la tâche copiée par toi dans `humain/taches/`, sa ligne `validations.md` et une ligne dédiée à la couleur dans le chat (brouillon : `a_valider/maths_parcours_v3_TACHE_A_COPIER.md`).

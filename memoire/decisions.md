@@ -223,3 +223,33 @@ Ajout uniquement. Format :
   manquant (par ex. fiches rédigées marquées GÉNÉRÉE, relues par l'humain) ; aucun nouvel appel réseau pour le
   corpus (`MAX_RECHERCHES = 0`).
 - Correctif (relecture `verificateur` du 2026-09-30) : **10** extraits douteux sur 28, pas 9 (`couverture.md`, `preuves.txt`).
+
+## 2026-09-30 — Parcours : corpus embarqué par `include_str!`, bandeau = une étape par notion (réponse A)
+- Contexte : `maths_parcours` ; le corpus n'a pas d'énoncés (titres d'exercices + liens AGPL, 28 extraits dont 10 douteux). Réponse A de l'humain (03:04).
+- Alternatives rejetées et pourquoi : `fetch` d'un fichier statique (asynchrone, hors du build vérifié, aucun gain de CSP) ; énoncés rédigés par l'agent, marqués GÉNÉRÉE (contenu non vérifié, plafond de 5 USD) ; garder les 3 énoncés en dur.
+- Conséquences : WASM 2,38 Mo brut / 348 933 o gzip (corpus 802 514 o brut, 68 531 o gzip ; section `name` 1,08 Mo) ; clés `localStorage` `brainiac-maths-niveau` et `-etapes` ; `NotionCourante` alimente le bloc `<cours>` du prompt (donnée non fiable, message utilisateur seulement) ; commit `9d683f1`.
+
+## 2026-09-30 — Parcours v2a : bouton « Générer un énoncé » aussi sans extrait de cours, énoncé non conservé
+- Contexte : `maths_parcours_v2a` (étapes 3-6, nouvelle session) ; 138 chapitres sur 166 n'ont pas d'extrait (« cours manquant »).
+- Alternatives rejetées et pourquoi : bouton réservé aux chapitres avec extrait (laisse 80 % du programme sans énoncé, et le plan dit « pour le chapitre courant ») ; énoncé généré stocké en `localStorage` (contenu non vérifié, regénération voulue).
+- Conséquences : énoncé généré à partir du titre seul pour ces chapitres ; clé API en signal mémoire seulement ; mention « source non vérifiée » via `source_citee_valide` ; `sujets_examen` lu tolérant à la main (pas de `serde(default)`, `corpus.rs` ne dérive pas `Deserialize`) ; WASM 2 672 768 o / 377 717 o gzip ; point soumis à l'humain dans le rapport v2a.
+
+## 2026-09-30 — Parcours v2a : corrections 1, 3, 4 en deux agents parallèles puis une seule passe de build
+- Contexte : demande de l'humain de corriger les points 1, 3 et 4 du rapport v2a et de « lancer en parallèle pour aller plus vite ».
+- Alternatives rejetées et pourquoi : trois agents qui buildent chacun (`dist/` et hash CSP partagés, courses) ; un agent séquentiel unique (plus lent, sans gain de cohérence).
+- Conséquences : points 4 (`tableau_chat.rs`) et 3 (`composants.css`, `consigne_card.rs`) écrits en parallèle, sans build ni navigateur ; une passe unique fmt/clippy/tests/build/hash/observation ensuite ; corrections non relues par un tiers (dit dans le rapport). Menu ☰ non corrigé (non reproduit).
+
+## 2026-09-30 — Parcours v3a : notation par KaTeX 0.18.9 rendu par l'API DOM, pas de repli Unicode
+- Contexte : étape 2 de `maths_parcours_v3a` ; essai autonome sous la CSP de production observé en Firefox headless (1280 px) : 9 formules rendues, polices locales chargées, 0 violation CSP (même avec `style-src 'self'` seul). Preuves : `projet/maths/docs/preuves/parcours_v3a/katex_csp/`.
+- Alternatives rejetées et pourquoi : table Unicode (ni fractions ni racines de plusieurs termes) ; `renderToString` + `inner_html` (interdit) ; `throwOnError:false` (affiche l'erreur en rouge par `style` en ligne).
+- Conséquences : options `{trust:false, strict:"ignore", maxExpand:100, maxSize:10, throwOnError:true, output:"html"}`, erreur = texte brut en nœud texte, `aria-label` = TeX brut ; liste blanche en amont refusant `\href`, `\url`, `\includegraphics`, `\html*`, `\def`/`\gdef`/`\edef`/`\xdef`/`\let`/`\newcommand`/`\renewcommand`/`\global`, `\rule` et **`\color`/`\textcolor`/`\colorbox`/`\fcolorbox`** (noir et blanc strict, accord du 2026-09-28) ; KaTeX copié dans `app/public/katex/` (js, css, 20 woff2 : 557 335 o, `node_modules` n'est pas versionné) et chargé en `'self'` hors `data-trunk` ; hash `csp.mjs` non concerné (script externe). Pont `wasm_bindgen` : `wasm-bindgen` et `js-sys` déjà au `Cargo.lock` à passer en dépendances directes (point soumis à l'humain). Non vérifié : balises sans `data-trunk` intactes après `trunk build`.
+
+## 2026-09-30 — Parcours v3a : rectification de la décision KaTeX (liste blanche réelle, pont sans nouvelle dépendance)
+- Contexte : relecture de l'étape 3 (constats 1 et 4) ; la décision précédente annonçait une « liste blanche » mais énumérait des refus, et prévoyait `wasm-bindgen`/`js-sys` en dépendances directes.
+- Alternatives rejetées et pourquoi : liste de refus (laisse passer les ~60 macros couleur intégrées de KaTeX) ; `wasm-bindgen`/`js-sys` en dépendances directes (inutile : `web-sys` 0.3.106 les réexporte, et l'accord v3a exclut toute installation).
+- Conséquences : filtre par liste blanche des séquences de contrôle dans `app/src/notation.rs` (commande inconnue = formule en texte brut) ; pont par `web_sys::js_sys::Reflect`/`Function`, `Cargo.toml` et `Cargo.lock` inchangés ; hors formule, plus de lettre ajourée déduite d'un `^` (seulement `\R`, `\mathbb R`, `X\{`).
+
+## 2026-10-01 — Audit du tuteur : gravité « moyen » retenue pour l'URL de base libre, vague de 4 domaines en parallèle
+- Contexte : audit ciblé de l'appel Anthropic (`appel.rs`, `api.rs`, clé, CSP). Le même défaut (URL de base saisissable, la clé part vers l'hôte saisi) est classé moyen par `pentest_entrees` (TA-01) et faible par identité, crypto et config.
+- Alternatives rejetées et pourquoi : retenir « faible » (la gravité d'un constat ne se révise pas à la baisse, AGENTS.md) ; lancer les 4 domaines en série (durée de session, leçon du 2026-09-30). Quatre agents `pentest_*` lancés en parallèle, chapitres V1-V4, V6-V9, V11/V12/V14, V13/V15/V16 (max 4 par agent).
+- Conséquences : TA-01 (moyen) fait foi dans `synthese.md` ; README corrigé dans `projet/maths` (V13.1.1) ; corrections de code, exemptions, décisions RGPD et architecture de la clé laissées à l'humain.

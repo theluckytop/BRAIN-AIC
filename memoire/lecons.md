@@ -242,3 +242,51 @@ Ajout uniquement. Relues au démarrage de chaque tâche. Format :
 - Correctif : requêtes déjà en cache jamais rejouées ; `MAX_RECHERCHES = 0` sans nouvelle décision (commit f2ba25e).
 - Règle : tout script réseau lit son cache d'abord et compte **tous** les appels de l'exécution contre le plafond,
   relances comprises ; la consigne au sous-agent l'exige explicitement.
+
+## 2026-09-30 — Un sous-agent coupé par une erreur d'API laisse des processus ouverts
+- Symptôme : l'`executant` de l'étape 3 s'est arrêté sur « EAI_AGAIN » (réseau de l'API, pas un refus) en laissant geckodriver, un serveur de test et un faux serveur d'API actifs ; il avait aussi écrit des `cd` malgré la règle en tête du prompt.
+- Cause réelle : les processus lancés en tâche de fond ne sont pas arrêtés par la coupure ; la règle du `cd` vit dans mon contexte, pas dans le leur (déjà noté le 2026-09-24).
+- Correctif : `pgrep` après toute coupure, arrêt des processus du projet seulement (pas le Firefox de l'humain), reprise du même agent avec sa version du travail, contrôle des dates code/build/preuves.
+- Règle : après un sous-agent échoué, lister les processus et l'état git avant de relancer ; reprendre l'agent plutôt que d'en créer un neuf.
+
+## 2026-09-30 — Un chiffre recopié d'une version périmée entre dans le prompt d'un sous-agent
+- Symptôme : j'ai demandé à l'executant d'expliquer l'écart de taille du WASM par un corpus de « ≈ 245 ko » ; le corpus v2 embarqué fait 802 514 o. La relecture l'a relevé.
+- Cause réelle : chiffre repris de `etat.md` (corpus v1, 245 538 o) sans relire le fichier avant de le donner à un sous-agent et de l'écrire dans le plan.
+- Correctif : `ls -l` du fichier, chiffre corrigé dans le rapport.
+- Règle : tout chiffre transmis à un sous-agent ou cité dans un plan se relit sur le fichier le jour même (`ls -l`, `wc`), jamais depuis `etat.md`.
+
+## 2026-09-30 — Enchaîner une tâche entière dans une session déjà longue : l'agent coupé ne peut plus être contrôlé
+- Symptôme : après la coupure API de l'agent des étapes 3-4, mon contrôle (`pgrep`, `git status`) a été refusé par le hook (868 min > 90) ; processus éventuels et état du répertoire de travail inconnus.
+- Cause réelle : j'ai lancé la tâche v2a dans une session ouverte depuis très longtemps, malgré les leçons des 2026-09-24 et 2026-09-29 ; la vérification d'après-coupure que la leçon du jour même exige dépendait d'un hook déjà proche de la limite. Un « reprend » de l'humain ne remet pas le compteur à zéro.
+- Correctif : `etat.md` et `questions.md` écrits, reprise en nouvelle session, avec le contrôle des processus et de l'état git en premier.
+- Règle : avant de lancer une tâche, lire l'âge de la session ; au-delà de 60 min, recommander la nouvelle session AVANT tout sous-agent, et ne pas argumenter avec le compteur.
+
+## 2026-09-30 — Reprise après coupure d'un agent : l'état git suffit à savoir où reprendre
+- Symptôme : l'agent des étapes 3-4 avait été coupé par l'API, état inconnu ; la nouvelle session craignait des fichiers à moitié écrits.
+- Cause réelle : rien n'avait été écrit pour ces étapes ; seul `git diff --stat` (8 fichiers des étapes 1-2) et `pgrep` l'ont établi en une commande.
+- Correctif : contrôle `pgrep` + `git status/diff` en premier, puis étapes relancées une par une (3, 4, 6) et chacune rejouée par moi (tests, fmt, grep) avant la suivante.
+- Règle : après une coupure, ne pas reprendre l'agent ; relever l'état sur disque, puis relancer des étapes courtes et les rejouer. Ne jamais arrêter un Firefox sans `-headless` : c'est celui de l'humain.
+
+## 2026-09-30 — Un `position: sticky; bottom: 0` ne retient pas un élément placé avant le contenu qui défile
+- Symptôme : le bouton « Générer un énoncé » est visible au chargement mais sort du bandeau par le haut quand on défile le corps jusqu'en bas (observé : y=-140 à 420 px).
+- Cause réelle : la zone d'actions est placée avant les liens dans `.px-card__body` ; `sticky; bottom: 0` ne la garde en bas que tant que sa position naturelle est sous la zone visible.
+- Correctif : aucun dans cette tâche (limite consignée dans le rapport v2a).
+- Règle : pour garder une action toujours visible, la sortir de la zone qui défile ou la placer en fin de contenu ; observer l'état défilé, pas seulement le chargement.
+
+## 2026-09-30 — « Liste blanche » dans le plan, liste de refus dans le code : les macros couleur de KaTeX passaient
+- Symptôme : relecture v3a étape 3 NON CONFORME ; `\red{x}`, `\blueA{x}`, `\kaBlue{x}` acceptés et rendus avec `style="color:…"`, contraire au noir et blanc strict.
+- Cause réelle : ma consigne à l'`executant` disait « Liste blanche : refuser … » suivi d'une liste de refus ; il a codé la liste de refus. KaTeX définit une soixantaine de macros de couleur intégrées qu'aucune liste de refus écrite à la main n'énumère.
+- Correctif : vraie liste blanche des séquences de contrôle (toute commande inconnue refusée), tests sur les macros couleur intégrées.
+- Règle : pour filtrer une entrée vers un moteur riche (KaTeX, Markdown, HTML), écrire une liste de ce qui est permis, jamais de ce qui est interdit, et tester avec les extensions intégrées du moteur. Relire ma propre consigne : un mot (« blanche ») contredit par l'exemple donne l'exemple.
+
+## 2026-09-30 — Session coupée à 169 min : les attentes d'agents en tâche de fond comptent dans la durée
+- Symptôme : garde-fou « durée 169 min > 90 » au moment de lancer l'audit ciblé du tuteur, après la clôture de v3a.
+- Cause réelle : une session a enchaîné étape 3, relecture, correctifs, re-relecture et deux audits (agents de 4 à 15 min chacun, en série) ; je n'ai pas relevé la durée écoulée avant d'ouvrir une nouvelle tâche.
+- Correctif : arrêt, `etat.md` et question mis à jour ; l'audit est reporté à une nouvelle session.
+- Règle : après une clôture, ne pas ouvrir de nouvelle tâche dans la même session ; proposer la reprise en nouvelle session. Lancer en parallèle les agents indépendants (audits de domaines distincts) pour réduire la durée.
+
+## 2026-10-01 — Un même défaut reçoit des gravités différentes selon l'auditeur
+- Symptôme : l'URL de base libre est moyenne (entrées) et faible (identité, crypto, config) dans quatre rapports du même audit.
+- Cause réelle : chaque agent note selon son domaine, sans voir les autres ; la consigne ne demandait pas de gravité commune pour un défaut partagé.
+- Correctif : la synthèse retient la gravité la plus haute et fusionne les constats.
+- Règle : à la prochaine vague multi-domaines, demander aux agents de citer d'abord les constats déjà connus d'un autre domaine, ou relire les gravités croisées avant la synthèse.

@@ -1,7 +1,80 @@
-# État — mis à jour le : 2026-09-30 (session 7, 02:56)
+# État — mis à jour le : 2026-10-01 (session 12, clôture)
 
-## maths_corpus : clos, APPROUVÉ par toi le 2026-09-30 (`validations.md`) ; prochaine tâche : `maths_parcours`
-- À lancer en **nouvelle session, palier sonnet** : estimation `estimer.py`, puis plan. Aucun réseau à l'exécution.
+## Session 12 : audit ciblé du tuteur Anthropic FAIT (choix A) ; v3b (choix C) non démarrée
+- **Clôture session 12** : relecture `verificateur` CONFORME (plan v3a) et CONFORME avec réserves mineures (audit, corrigées dans `erratum_synthese.md`). v3a commitée (`ba57024`) et README (`31a3da5`) dans `projet/maths`, locaux, non poussés ; tests rejoués (109 + 55, fmt, clippy natif et wasm32, `csp.mjs --verifier`). Proposition : `a_valider/2026-10-01_maths_tuteur_audit_rapport.md` (7 décisions). Mémoire : 1 décision, 1 leçon, 1 estimation.
+- **`travail/brouillons/` NON vidé** (14 entrées : clones mathalea, caches corpus, `katex_csp`, `phase2_diff.txt`, `tableau-pixel`) : aucun accord de suppression. Modèle courant sonnet = palier requis, rien à changer. Reprise : nouvelle session depuis la racine ; v3b seulement après tes trois lignes (tâche copiée, `validations.md` pour la tâche et pour la couleur).
+- Audit `pentest/rapports/2026-09-30_235422_maths_tuteur_anthropic/` (`synthese.md` + 4 rapports) : **0 critique, 0 élevé, pas de blocage de livrable**. Moyens : URL de base libre (TA-01, gravité maintenue moyenne), clé lisible par la page (CR-10/ID-08), données envoyées à Anthropic non classées (CR-12), HSTS absent (CR-06, indéterminé), V15.2.1 (indéterminé). Revue seule ; auditeurs sans shell.
+- Rejoué par moi : `csp.mjs --verifier` OK (3 fichiers, même hash) ; 0 clé `sk-ant-` dans l'arbre et l'historique git de `projet/maths`.
+- `projet/maths/README.md` corrigé (section Communications : l'appel à l'API Claude, la clé en mémoire, la limite TA-01). Commité (`31a3da5`), relu par le `verificateur` (affirmations vraies contre le code).
+- **À toi** : (1) décisions architecture/RGPD (clé dans le navigateur, données d'élèves envoyées à Anthropic), HSTS, exemptions V6-V9 et crypto à écrire dans `pentest/exemptions.md` (textes proposés dans les rapports) ; (2) accord réseau pour `npm audit` / `cargo audit` ; (3) déposer une tâche de correction (URL en liste blanche, `masquer_cle` dans le chat, bornes, bouton « Oublier la clé »), après avoir approuvé et commité v3a.
+- **v3b (C) : NON démarrée.** `humain/taches/maths_parcours_v3.md` absent, aucune ligne `validations.md` pour v3b ni pour la couleur dans le chat. Rien lancé dans `projet/maths`. Déblocage : copier `a_valider/maths_parcours_v3_TACHE_A_COPIER.md` dans `humain/taches/`, deux lignes `validations.md`, et approuver v3a d'abord (mêmes fichiers `tableau_chat.rs`, `notation.rs`).
+- Coût : 4 sous-agents sonnet ≈ 390 k jetons ; estimation de ma part 1,5 à 3 USD ; `estimer.py` 9,9 à 29,6 (artefact, périmètre `projet/` entier) ; réel à relever sur ta console. Mémoire (décision, estimation) non écrite cette session.
+
+## Session 11 arrêtée par le garde-fou (169 min > 90), juste avant l'audit ciblé du tuteur
+- Tu as dit « prends l'exemple prévu, continue » : l'exemple prévu (ℝ∖{2}, ℝ², fraction, racine) est déjà celui des preuves `rendu/` ; rien à refaire.
+- Rien n'a été lancé pour l'audit du tuteur. **Reprise : nouvelle session, `/model sonnet`, depuis la racine de BRAINIAC** : `/pentest` ciblé sur l'appel Anthropic (`appel.rs`, `api.rs`, stockage de la clé), domaines config, entrées, identité, crypto, sur `34cad26..32d43df`, revue seule, sans réseau.
+- **Ta réponse : A et C en parallèle.** A démarre dès la nouvelle session. C (v3b) attend : la tâche copiée par toi depuis `a_valider/maths_parcours_v3_TACHE_A_COPIER.md` vers `humain/taches/`, sa ligne `validations.md` et une ligne pour la couleur dans le chat. Sans elles, je fais A seul et je planifie v3b sans toucher au code.
+- Conflit à prévoir : v3b touche `tableau_chat.rs`/`notation.rs`, encore non commités (v3a) ; approuver v3a d'abord évite de mêler les deux.
+
+## maths_parcours_v3a : LIVRÉE, à approuver (code NON commité dans `projet/maths`), relecture CONFORME, audits sans blocage
+- **À toi** : lire `a_valider/2026-09-30_maths_parcours_v3a_rapport.md` (commande de commit exacte + 5 points à trancher), puis une ligne `validations.md`.
+- Relecture : NON CONFORME au 1er passage (couleurs KaTeX, normalisation), CONFORME après correctifs. Audits `pentest/rapports/2026-09-30_maths_parcours_v3a_cloture/` (+ 2 errata) : 0 critique, 0 élevé.
+- **Constat hors v3a à traiter ensuite** : l'appel au tuteur (`api.anthropic.com`, `appel.rs`) n'a jamais été audité (moyenne) ; `README.md` dit encore « aucun appel réseau ». Proposé comme prochaine tâche (audit ciblé), `npm audit` demande ton accord réseau.
+- **Budget** : ≈ 1 000 k jetons de sous-agents sur v3a (2 sessions) + pilotage opus en session 11 : le plafond de 5,00 USD est **peut-être dépassé** ; réel à relever sur ta console.
+- Retour de palier : cette session tourne en opus ; pour la suite, `/model sonnet` (palier du plan).
+- `travail/brouillons/` non vidé : 14 entrées (clones mathalea, caches corpus, `katex_csp`) dont la suppression demande ton accord.
+- **Session 11, relecture NON CONFORME** (2 constats moyens, 0 critique) : macros couleur intégrées de KaTeX acceptées (liste de refus au lieu de liste blanche) ; normalisation hors formule qui change le sens (« C^1 » → ℂ¹, « R^2 = 0,98 » → ℝ²). Correctifs en cours (executant), leçon et rectification de décision écrites. À trancher par toi (faible) : le bandeau montre une invite fixe « Génère un énoncé pour cette notion. » tant que Haiku n'a rien produit (le corpus n'a pas d'énoncés).
+- **Session 11, étape 3 faite** (non commitée) : KaTeX rend l'énoncé du bandeau, les réponses Haiku et les messages que tu colles dans le chat (`$…$`, `$$…$$`, `\(…\)`, `\[…\]`). Chiffres de l'exécutant : 105 + 55 tests, fmt, clippy natif/wasm32, 0 `inner_html`, `Cargo.toml`/`Cargo.lock` inchangés, CSP `--verifier` OK, 68 contrôles d'observation à 1280 et 420 px. Preuves `projet/maths/docs/preuves/parcours_v3a/rendu/`. ≈ 157 k jetons. Non vérifié : appel Haiku réel, vrai presse-papiers, mode sombre. Relecture `verificateur` en cours (étape 4).
+- **Session 11** : étape 3 débloquée sans ajout de dépendance : `web-sys` 0.3.106 réexporte `js_sys` et `wasm_bindgen` (appel KaTeX par `Reflect`/`Function`, `Cargo.toml` inchangé) : choix technique signalé. Étape 3 confiée à `executant`, rendu étendu aux messages collés par l'utilisateur (ta demande). Question : quel « bout de texte » veux-tu coller ? Je ne le retrouve pas (voir `questions.md`).
+- **Session 10, étape 1 faite** (carrousel, non commitée, non relue par un tiers) : v2a commitée `32d43df` (par moi, à ta demande) ; 87 + 55 tests, fmt, clippy natif/wasm32, CSP `--verifier` OK (rejoués par moi) ; observé 1280 px et 420 px (iframe) sans en-tête CSP ; WASM 2 655 266 o / 376 426 o gzip -9. Preuves `docs/preuves/parcours_v3a/carrousel/`. ≈ 141 k jetons. Étape 3 bloquée : ligne d'accord `wasm-bindgen`/`js-sys` absente.
+- **Session 10** : étape 2 faite : KaTeX 0.18.9 utilisable sous la CSP réelle (0 violation, preuves `projet/maths/docs/preuves/parcours_v3a/katex_csp/`), décision dans `memoire/decisions.md`. ≈ 108 k jetons (executant). Étape 1 (carrousel) en attente du commit de v2a par toi (sinon v2a et v3a se mêlent). Question : `wasm-bindgen`/`js-sys` en dépendances directes (déjà au `Cargo.lock`).
+- Tâche `humain/taches/maths_parcours_v3a.md` (copiée par toi) et ligne `validations.md` du 2026-09-30 : présentes. Plan : `travail/plan.md` (4 étapes).
+- Estimation : `estimer.py` 8,63 à 25,90 USD (artefact : `projet/` entier, mot-clé « autorisation ») ; la mienne ≈ 1,5 à 3 USD ; palier **sonnet**.
+- v3b (figures, tableaux, schémas, couleur dans le chat) : **non autorisée**, brouillon dans `a_valider/maths_parcours_v3_TACHE_A_COPIER.md` ;
+  la couleur demande une ligne dédiée (assouplit le « noir et blanc strict » de 2026-09-28). Questions 1 (sens de `R\{2}`) et 3 (découpe) restent ouvertes.
+
+## maths_parcours_v2a : livrée (code dans `projet/maths`, NON commité), relecture CONFORME avec réserves
+- Reprise faite : aucun processus à nous, état git = étapes 1-2 seules ; étapes 3, 4, 6 relancées une par une et rejouées par moi.
+- Rapport à valider : `a_valider/2026-09-30_maths_parcours_v2a_rapport.md` (5 points : chapitre non restauré au rechargement,
+  bouton sans cours, bouton hors vue à 420 px, historique du chat, « ab » dans l'extrait 6e).
+- Rejoué (moi + `verificateur`) : 80 + 55 tests, fmt, clippy natif et wasm32, `csp.mjs --verifier`, `inner_html` 0, dépendances et
+  `corpus.json` inchangés. WASM 2 672 768 o / 377 717 o gzip. Preuves : `projet/maths/docs/preuves/parcours_v2a/`.
+- **Non observé** : Haiku réel, sujets d'examen (v2b), écran réel ; « 420 px » = iframe.
+- Coût : ≈ 250 k jetons sonnet cette session (4 sous-agents) ; réel USD à relever de ton côté.
+- **Corrections demandées par l'humain (même session)** : points 1 (chapitre restauré), 3 (bouton visible, CSS) et 4 (chat vidé à la génération)
+  faits, **non relus par un tiers** ; 82 + 55 tests, hash CSP OK, WASM 2 677 482 o / 377 878 o gzip ; observés Firefox headless (iframe 420 px).
+  Restent : chat non vidé au changement d'étape, menu ☰ non reproduit, bouton qui sort du bandeau en bas de défilement, Haiku réel non observé.
+  Appli servie sur http://127.0.0.1:8080/ (serveur Python pid 305994, à arrêter : `kill 305994`).
+- Mémoire : 1 décision, 1 leçon, 1 ligne d'estimation. Aucun commit, aucun push. `travail/brouillons/` non vidé.
+- **À toi** : approuver (ou non) dans `validations.md` ; commiter `projet/maths` ; pour v2b, copier
+  `a_valider/maths_parcours_v2b_TACHE_A_COPIER.md` dans `humain/taches/` + ligne `validations.md`.
+- Suite : responsivité + clé API persistante + cahier des charges (nouvelle session, sonnet) ; v2b après ton accord.
+
+## maths_parcours_v2 : en attente de l'humain, rien commencé dans `projet/maths`
+- Demande : programme complet du niveau dans la modale Parcours, onglet « Cours » déverrouillé au choix d'un chapitre,
+  énoncés générés par Haiku, sources menant à un cours ou à des partiels ; supérieur = L1 Math-info (choix B : l'agent
+  cherche les sources universitaires). Brouillon : `a_valider/2026-09-30_maths_parcours_v2_tache.md` ; questions consignées.
+- **Découpe A décidée** (04:50) : v2a (app CM2-Terminale, API Claude, sans réseau) puis v2b (corpus L1, 300 requêtes).
+  Tâches prêtes : `a_valider/maths_parcours_v2{a,b}_TACHE_A_COPIER.md` ; il faut les copier dans `humain/taches/` et une
+  ligne `validations.md` par tâche (l'accord actuel nomme `maths_parcours_v2.md`, qui est remplacée).
+- **Accord présent** (04:38) : ligne complète de `validations.md` (API Claude, réseau L1 en lecture seule, 300 requêtes, 5 USD).
+- **Bloqué** : `humain/taches/maths_parcours_v2.md` n'existe pas ; version propre prête dans
+  `a_valider/maths_parcours_v2_TACHE_A_COPIER.md`, à copier par l'humain.
+- Reprise en nouvelle session (sonnet) : relire `validations.md` (ligne complète) et la tâche, puis `estimer.py`, plan,
+  `executant`. Le rapport `maths_parcours` (4 points) reste à approuver.
+
+## maths_parcours : livrée (commit `9d683f1` dans `projet/maths`, local, non poussé), en attente de ton approbation
+- Étapes 1 à 6 faites (session 8, 02:58-04:00) ; relecture `verificateur` **CONFORME avec réserves**, 0 bloquant ; tests 62 + 55, clippy
+  natif/wasm32, fmt, hash CSP rejoués ; app observée sous la CSP réelle (4/4) et hors CSP (16/16).
+- **Rapport à valider** : `a_valider/2026-09-30_maths_parcours_rapport.md`, 4 points : (1) WASM 2,38 Mo / 348 933 o gzip, corpus 802 514 o
+  (mon « 245 ko » était périmé, corrigé), section `name` de 1,08 Mo à retirer ? ; (2) plafond 40vh du bandeau à 420 px ; (3) CSS ≤ 480 px hors
+  périmètre à relire ; (4) `source_citee_valide` non branchée.
+- Coût : ≈ 425 k jetons sonnet, 7 sous-agents ; estimation `estimer.py` 8,4-25,3 (artefact), la mienne 1,5-4,5 USD ; réel à relever de ton côté.
+- Mémoire : 1 décision, 2 leçons (sous-agent coupé par l'API ; chiffre périmé), 1 ligne d'estimation.
+- Suite décidée : responsivité + clé API persistante + cahier des charges, en **nouvelle session, sonnet**, après ton approbation.
+- Non fait : README d'app cite encore `trunk serve` ; `parcours.py` périmé ; aucun push ; `travail/brouillons/` non vidé.
+
+## Historique — maths_corpus : clos, APPROUVÉ par toi le 2026-09-30 (`validations.md`)
 
 ## Rapport de clôture : `a_valider/2026-09-30_maths_corpus_rapport.md`
 - **Étape 6 faite** : relecture `verificateur` (sonnet) de `f2ba25e` : **CONFORME**, 0 bloquant, 4 écarts mineurs du README
