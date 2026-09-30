@@ -212,3 +212,14 @@ Ajout uniquement. Format :
 - Conséquences : `docs/preuves/phase3/erratum_cloture.txt` prime sur les fichiers qu'il corrige
   (commits `84a03a5`, `f852273`, non relus par un tiers) ; chiffres retenus : 11 ms, 164 766 o gzip.
   Réserve clavier maintenue (décision A de l'humain). Audits de clôture : 0 critique, 0 élevé.
+
+## 2026-09-30 — Corpus de maths clos tel quel, cours manquant renvoyé à `maths_parcours`
+- Contexte : étape 5d (commit `f2ba25e` de `projet/maths`) : 166 notions (référentiel Coopmaths), 841 exercices
+  (titres + liens, AGPL-3.0), mais 28 extraits Wikiversité sur 166 dont 9 douteux ; CM2 0/20, Seconde 1/24.
+  Réponse A de l'humain (02:45).
+- Alternatives rejetées et pourquoi : autre source ouverte de cours (nouvel accord réseau, aucune source nommée) ;
+  finir la recherche Wikiversité (~330 appels, gain attendu quasi nul : pas de leçons pour la plupart des thèmes).
+- Conséquences : trous marqués dans `corpus/sortie/couverture.md` ; `maths_parcours` devra fournir le cours
+  manquant (par ex. fiches rédigées marquées GÉNÉRÉE, relues par l'humain) ; aucun nouvel appel réseau pour le
+  corpus (`MAX_RECHERCHES = 0`).
+- Correctif (relecture `verificateur` du 2026-09-30) : **10** extraits douteux sur 28, pas 9 (`couverture.md`, `preuves.txt`).

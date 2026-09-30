@@ -1,6 +1,17 @@
-# État — mis à jour le : 2026-09-30 (session 5)
+# État — mis à jour le : 2026-09-30 (session 7, 02:56)
 
-## En cours — maths_corpus (corpus de cours CM2 à Terminale)
+## À valider — maths_corpus livré : `a_valider/2026-09-30_maths_corpus_rapport.md`
+- **Étape 6 faite** : relecture `verificateur` (sonnet) de `f2ba25e` : **CONFORME**, 0 bloquant, 4 écarts mineurs du README
+  corrigés (commit `11b65e2` dans `projet/maths`, non relu par un tiers).
+- Chiffres : 166 notions, 841 exercices (titres + liens), 28 extraits dont **10 douteux** (et non 9 comme annoncé
+  auparavant), CM2 0/20, Seconde 1/24.
+- Estimation du jour : `estimer.py` donne 8,4 à 25,3 USD (périmètre `projet/` entier, 434 fichiers : artefact connu) ;
+  étape 6 réelle ≈ 51 k jetons sonnet. **Réel total de la tâche à relever de ton côté** (plafond 5 USD peut-être dépassé
+  à cause du pilotage en opus).
+- Suite : ton approbation du rapport dans `validations.md`, puis `maths_parcours` (le cours manquant s'y traite) ;
+  palier conseillé : sonnet, en nouvelle session.
+
+## Historique — maths_corpus (corpus de cours CM2 à Terminale)
 - **Session 6 (2026-09-30, 01:19)** : étape 5d lancée (`executant`, sonnet). Estimation `estimer.py` du jour :
   6,4 à 19,3 USD, gonflée par le périmètre `projet/` entier (273 fichiers) ; estimation initiale 1,26 à 3,77 USD.
   Dépense relevée ≈ 300 k jetons sonnet (≈ 1,5 USD) + 5d ≈ 1 USD : plafond de 5 USD tenu selon mon relevé,
