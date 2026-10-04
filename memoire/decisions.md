@@ -253,3 +253,33 @@ Ajout uniquement. Format :
 - Contexte : audit ciblé de l'appel Anthropic (`appel.rs`, `api.rs`, clé, CSP). Le même défaut (URL de base saisissable, la clé part vers l'hôte saisi) est classé moyen par `pentest_entrees` (TA-01) et faible par identité, crypto et config.
 - Alternatives rejetées et pourquoi : retenir « faible » (la gravité d'un constat ne se révise pas à la baisse, AGENTS.md) ; lancer les 4 domaines en série (durée de session, leçon du 2026-09-30). Quatre agents `pentest_*` lancés en parallèle, chapitres V1-V4, V6-V9, V11/V12/V14, V13/V15/V16 (max 4 par agent).
 - Conséquences : TA-01 (moyen) fait foi dans `synthese.md` ; README corrigé dans `projet/maths` (V13.1.1) ; corrections de code, exemptions, décisions RGPD et architecture de la clé laissées à l'humain.
+
+## 2026-10-01 — Parcours v3a1 : `R\{2}` exact → ℝ², `R^2` seulement après un mot d'ensemble
+- Contexte : l'humain précise que `R\{2}` désigne ℝ² (et non ℝ privé de 2) ; relecture CONFORME.
+- Alternatives rejetées et pourquoi : convertir tout `R^2` (faux pour un coefficient de détermination) ; convertir aussi `R\{3}` et `\mathbb R\setminus` (ces formes disent « privé de »).
+- Conséquences : `notation.rs` (`apres_mot_d_ensemble`), prompts Haiku (`\mathbb{R}^2` pour le plan, `\setminus` pour « privé de ») ; faux positif connu « de R^2 » (« de » est un mot d'ensemble), soumis à l'humain dans le rapport.
+
+## 2026-10-01 — Parcours v3b : figures par spécification JSON fermée, dessin par le DOM, figures refusées hors chat
+- Contexte : `maths_parcours_v3` (accords du 2026-10-01) : schémas, tableaux, repères et figures dans le chat, couleur dans le chat seulement.
+- Alternatives rejetées et pourquoi : SVG ou HTML produit par Haiku (injection) ; `serde` derive (change `Cargo.lock`, `serde_json::Value` validé à la main suffit) ; évaluation de formules libres (courbes = points tabulés ou 9 fonctions d'une liste fermée) ; `foreignObject` pour KaTeX dans le SVG.
+- Conséquences : `figure.rs` (validation pure), `figure_svg.rs` (dessin), `Figures::{Autorisees,Refusees}` dans `texte_math` (le bandeau ne dessine jamais de figure), palette `chat-couleurs.css`, `contraste.mjs` étendu, `MAX_TOKENS` 1536 ; `tokens.css`, `Cargo.lock` et la CSP (hors hash) inchangés.
+
+## 2026-10-01 — Parcours v3b-T : figures plafonnées en CSS (360 px, 45vh), texte du viewBox à 16 px, tableau défilant dans sa zone
+- Contexte : demande de l'humain, figures et tableaux du chat lisibles et pas trop grands ; relecture CONFORME (4 mineurs).
+- Alternatives rejetées et pourquoi : taille fixée par attribut `style` en ligne (annulait le `max-width` CSS : c'était le blocage) ; agrandir la zone des messages (mise en page de l'écran de chat, hors périmètre, soumise à l'humain).
+- Conséquences : `chat-couleurs.css` (`max-width:360px`, `max-height:min(45vh,360px)`, bulle 720 px, colonnes `minmax(0,1fr)`), `figure_svg.rs` (plus de `style` en ligne, marges, interligne) ; texte SVG effectif 18 px à 1280, 11,6 px à 360 ; `tokens.css`, `Cargo.lock` inchangés.
+
+## 2026-10-04 — Parcours v3c1 : clés inconnues ignorées, repère étendu, tableau Markdown par `valider`, hors chat inchangé
+- Contexte : retours d'usage réel de v3b (triangle refusé, tableau en texte brut, formule sans LaTeX) ; accord `validations.md` du 2026-10-01, relecture CONFORME.
+- Alternatives rejetées et pourquoi : garder le refus des clés inconnues (cause du refus du triangle) ; tableau Markdown dessiné hors chat (le bandeau ne dessine jamais de figure) ; construire le tableau sans `valider` (perdrait les bornes et contrôles bidi).
+- Conséquences : `objet()` ne contrôle plus les clés (listes `permis` mortes, à nettoyer) ; `repere` lit polygones, segments, angles, étiquettes ; angle droit en carré aussi dans `figure` géométrie ; tableau Markdown = JSON passé à `valider` (8 colonnes, 15 lignes, 60 caractères), désactivé en `Figures::Refusees`, jamais si une cellule contient `$` ; `decouper` en `#[cfg(test)]` ; hash CSP changé (`index.html`, `netlify.toml`). `Cargo.*` et `tokens.css` inchangés.
+
+## 2026-10-04 — Parcours v3c2 : l'outil `figure` est reconverti en bloc ```figure, jamais cru ; style sobre sous `.px-chat`
+- Contexte : accord `validations.md` du 2026-10-04 (outil de sortie structurée, même hôte, plafond 5 USD) ; relecture CONFORME (critère 9 = essai réel de l'humain).
+- Alternatives rejetées et pourquoi : chemin de rendu séparé pour `tool_use` (deux validateurs à garder alignés) ; `additionalProperties:false` et mode strict (fragile avec un petit modèle, la tolérance de v3c1 serait perdue) ; outil aussi dans `requete_enonce` (le bandeau ne dessine jamais de figure) ; style sobre global (le thème pixel reste la règle hors chat).
+- Conséquences : `schema_outil()` dans `figure.rs` dérivé des mêmes constantes que `valider` ; `extraire_texte` insère ```figure à la place du `tool_use`, 3 au plus, nom exact, refus si ``` ou saut de ligne, troncature signalée ; CSS du chat seulement ; acceptation du schéma par l'API non vérifiée sans clé.
+
+## 2026-10-04 — L1 phase 1 : fusion hors ligne par script séparé, extraits imparfaits affichés comme douteux, licence lue dans les PDF
+- Contexte : `maths_l1_cours_pdf` (accord du 2026-10-04) ; `pdftotext` rend mal les formules (27 extraits sur 29), licence réelle 3.0 FR pour les deux livres.
+- Alternatives rejetées et pourquoi : intégrer L1 dans la chaîne Coopmaths de `construire.py` (réseau ou cache absent) ; retirer ou réécrire les extraits (hors source vérifiable, question A/B/C posée à l'humain) ; écrire « 4.0 » pour tout (faux pour les livres).
+- Conséquences : `corpus/l1/{extraire_l1,integrer_l1}.py` rejouables, `source_pdf` dans `Notion`, `lien_pdf` à liste blanche, auteurs affichés (clause BY), `l1` exempté de « source avec URL » (sources PDF locales). Hash CSP changé (`index.html`). Correctif des auteurs non relu par un tiers.

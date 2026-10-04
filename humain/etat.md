@@ -1,4 +1,69 @@
-# État — mis à jour le : 2026-10-01 (session 12, clôture)
+# État — mis à jour le : 2026-10-04 21:15 (session 16, `/tache` : L1 PDF planifiée)
+
+## Session 16 (suite) : L1 phase 1 LIVRÉE et COMMITÉE à ta demande (`1154975` dans `projet/maths`, branche master, local, non poussé), approbation à écrire dans `validations.md` ; phase 2 non commencée
+- Suite décidée : tâche `maths_ui_menu_police` (☰ qui recouvre le contenu, police lisible pour le texte long, A− / A+, zoom) **avant** v3c ; brouillon `a_valider/maths_ui_menu_police_TACHE_A_COPIER.md`, en attente de ta copie dans `humain/taches/` et de ta ligne `validations.md`.
+- Fait : niveau L1 (29 chapitres, 195 notions au total), extraits recopiés des PDF, auteurs et licences réelles (3.0 FR livres, 4.0 FR Formules), liens `#page=N`, 3 PDF copiés. Relecture `verificateur` : 3 critères sur 4 CONFORMES, l'écart (auteurs non affichés) corrigé ; **correctif non relu par un tiers**. Rejoué par moi : 168 + 55 tests, fmt, clippy natif et wasm32, CSP `--verifier`, contraste 0 échec. Observé Firefox headless sous la CSP réelle (1280/420 px, clair/sombre) : 74 OK, 0 écart, 29 liens PDF 200.
+- **À toi** : lire `a_valider/2026-10-04_maths_l1_cours_pdf_phase1_rapport.md` (8 points : extraits illisibles A/B/C dans `questions.md`, licence 3.0, Chrome sous `object-src 'none'`…), une ligne `validations.md` si tu approuves, dire si je commite, puis point de contrôle avant la phase 2 (captures).
+- Non observé : Chrome, écran réel, Netlify réel. Anomalie antérieure : bouton menu sur les titres de l'onglet Cours (v3c).
+- Coût : ≈ 400 k jetons sonnet (6 sous-agents), ma fourchette 1 à 2 USD ; réel à relever sur ta console. Mémoire : 1 décision, 1 leçon, 1 estimation. `travail/brouillons/` non vidé.
+- Nouvelle tâche : en nouvelle session (durée).
+
+## Session 16 : tâche retenue `maths_l1_cours_pdf` (phase 1), planifiée
+- Seule tâche approuvée non faite (`validations.md` 2026-10-04) ; v3c1 et v3c2 closes. Pentest d'entrée non requis (`pentest/rapports/` non vide, audit du tuteur 0 critique / 0 élevé). Tâche relue : aucune instruction contraire à `AGENTS.md`. `questions.md` : la « Réponse » aux 4 questions L1 est restée vide, mais la tâche copiée et approuvée porte les hypothèses A/A/A/A (non commercial, gris, copie des PDF, 2 phases) : je les suis.
+- **Estimation** : `estimer.py` 10,1 à 30,4 USD, plafond « DÉPASSÉ » (artefact : `projet/` entier). Ma fourchette phase 1 : **≈ 1 à 2 USD**, tâche entière 2 à 4 USD ; **palier recommandé : sonnet** (modèle courant : sonnet). Pas de bascule nécessaire. Arrêt et question à ≈ 400 k jetons de sous-agents.
+- Plan : `travail/plan.md` (étapes 0 à 5, phase 1 seulement ; la phase 2 « captures » attend ton point de contrôle).
+- **À toi** : dis « go » pour lancer l'étape 0 (exploration). Si cette session dépasse 60 min, plutôt une nouvelle session sonnet depuis la racine. Rappel : `travail/brouillons/` non vidé (accord requis) ; `travail/chaine_taille.sh` non commité.
+- Mémoire : estimation à écrire à la clôture de la phase 1.
+
+
+## Session 15 (suite) : v3c2 LIVRÉE, COMMITÉE (`bce916e`, local, non poussé) et APPROUVÉE (`validations.md`) ; v3c1 approuvée aussi
+- Tâche copiée et approuvée par toi (`validations.md`, 2026-10-04). Étapes 0 à 4 faites : outil `figure` à `input_schema` (reconverti en bloc ```figure, toujours validé), style sobre des tableaux et schémas du chat seulement. Relecture `verificateur` **CONFORME** (critères 1 à 8 ; critère 9 = ton essai réel).
+- Rejoué par moi et le `verificateur` : 165 + 55 tests, fmt, clippy natif et wasm32, `contraste.mjs` 0 échec, `csp.mjs --verifier`, `Cargo.*`/`tokens.css` inchangés. Observé sous CSP réelle à 1280 et 420 px, clair et sombre, réponses API simulées. **Non observé : acceptation du schéma par l'API, Haiku réel, écran réel.**
+- **À toi** : lire `a_valider/2026-10-04_maths_parcours_v3c2_rapport.md` (commande de commit exacte), une ligne `validations.md` si tu approuves, (commit déjà fait à ta demande), puis un essai avec ta clé : si l'API refuse le schéma, l'appel du chat échoue entièrement, à me signaler. Questions répondues : énoncé à 600 caractères accepté tel quel (A), style sobre chat seulement (A). Reste : ton essai réel avec ta clé.
+- Reste de v3 : v3c (mise en page du chat, accessibilité clavier, légende de tableau sur une ligne) : brouillon `a_valider/maths_parcours_v3c_TACHE_A_COPIER.md`.
+- Coût : ≈ 320 k jetons de sous-agents, ma fourchette 2,5 à 4 USD ; réel à relever sur ta console. Le pilotage est passé en **opus** en fin de session : repasse en `/model sonnet` (palier du plan). Session très au-delà de l'usage prévu : toute nouvelle tâche en nouvelle session.
+
+
+## Session 15 : v3c1 LIVRÉE et COMMITÉE (`0cfcc48` dans `projet/maths`, local, non poussé), approbation à écrire
+- Tâche copiée par toi et approuvée (`validations.md`). Étapes 0 à 4 faites : validation tolérante, repère étendu (polygones, segments, angles, étiquettes), motif du refus, prompt strict, tableau Markdown. Relecture `verificateur` **CONFORME** (0 bloquant, mineurs au rapport).
+- Rejoué par moi et le `verificateur` : 155 + 55 tests, fmt, clippy natif et wasm32, `contraste.mjs` 0 échec, `csp.mjs --verifier`, `Cargo.*`/`tokens.css` inchangés. Observé sous CSP réelle à 1280 et 420 px (iframe), clair et sombre. **Haiku réel et écran réel non observés** (réponses simulées).
+- **À toi** : lire `a_valider/2026-10-04_maths_parcours_v3c1_rapport.md` (commande de commit exacte), une ligne `validations.md` si tu approuves (commit déjà fait à ta demande). Question sur l'énoncé tronqué à 600 caractères dans `questions.md`. Un essai avec ta clé dira si le prompt strict suffit.
+- Choix techniques signalés : carré d'angle droit aussi dans `figure` géométrie ; tableau Markdown désactivé hors chat ; listes de clés mortes dans `figure.rs` à nettoyer.
+- Reste de v3 : v3c2 (outil à `input_schema`, style sobre) et v3c (mise en page du chat, accessibilité clavier du tableau) : brouillon `a_valider/maths_parcours_v3c_TACHE_A_COPIER.md`, à copier avec leur ligne `validations.md`.
+- Coût : ≈ 298 k jetons sonnet (5 sous-agents), ma fourchette 2 à 3,5 USD ; `estimer.py` 10,1 à 30,2 (artefact) ; réel à relever sur ta console. Mémoire : 1 décision, 1 leçon, 1 estimation. `travail/brouillons/` non vidé (accord requis). Session proche de la limite des 90 min : toute nouvelle tâche en nouvelle session.
+
+
+## Arrêt du garde-fou (95 min > 90) : « lance l'app » et « lance v3c » NON exécutés
+- v3c : `humain/taches/maths_parcours_v3c.md` et sa ligne `validations.md` absentes (vérifié) : rien à lancer tant que tu ne les as pas ajoutées.
+- App : le hook a refusé le premier Bash ; rien lancé, port 8080 non contrôlé. Reprise : nouvelle session sonnet depuis la racine, ou toi-même `! python3 -m http.server 8080 --directory projet/maths/app/dist`. Question dans `questions.md`, leçon écrite.
+- **Retours d'usage réel (Haiku, app lancée par l'humain)** : tableau demandé rendu en texte brut sans bloc ```figure ; triangle dans un repère refusé (« repere : clé non autorisée ») ; formule de Pythagore sans LaTeX (exposants perdus). Solutions proposées (sortie structurée par outil, validation tolérante, motif du refus précis, style sobre) consignées dans `questions.md` ; à intégrer à v3c. **Rien codé** : garde-fou à 103 min.
+
+## Session 14 : ajustement « taille des figures et tableaux » FAIT (code v3b NON commité), relecture CONFORME
+- Mesuré puis corrigé (`chat-couleurs.css`, `figure_svg.rs`) : SVG ≤ 360 px et ≤ 45vh, texte effectif 18 px à 1280 et 11,6 px à 360, bulle 720 px à 1280, tableau défilant dans sa zone (≤ 360 px), 0 débordement aux 4 largeurs, clair et sombre. Rejoué par le `verificateur` : 144 tests, fmt, clippy natif et wasm32, `contraste.mjs`, `csp.mjs --verifier`, `tokens.css`/`Cargo.lock` inchangés. Preuves : `projet/maths/docs/preuves/parcours_v3b/taille/`.
+- 4 réserves mineures, dont **zone des messages ~165 px à 1280x814** (figure rognée) et **tableau sans `tabindex`** : question posée dans `questions.md`. Non observé : Haiku réel, écran réel (420/360 px = iframe).
+- **v3b commitée à ta demande** : `ac3d45a` dans `projet/maths` (local, non poussé, arbre propre), taille ajustée incluse. Reste : la ligne `validations.md` (v3b et v3a1) ; points 1 à 4 du rapport (M2, `MAX_TOKENS` 1536, essai réel avec clé, `rgba` de la modale) toujours ouverts.
+- **À toi** : approuver v3b dans `validations.md` (rapport `a_valider/2026-10-01_maths_parcours_v3b_rapport.md`, cet ajustement n'y est pas encore mentionné) puis commiter ; la ligne de v3a1 manque toujours. `travail/chaine_taille.sh` (script de rejeu) et `travail/brouillons/` non supprimés (accord requis).
+- **Réponse : A pour les trois points** → tâche v3c, brouillon `a_valider/maths_parcours_v3c_TACHE_A_COPIER.md` ; elle attend la copie dans `humain/taches/`, sa ligne `validations.md`, et de préférence v3b commitée d'abord (mêmes fichiers). Nouvelle session sonnet.
+- Coût : ≈ 135 k jetons sonnet (2 sous-agents), ma fourchette 0,5 à 1,2 USD ; réel à relever sur ta console. Mémoire : 1 décision, 1 leçon, 1 estimation.
+
+## Arrêt du garde-fou (durée 1072 min > 90) : ajustement « taille des figures et tableaux » NON commencé
+- Demande de l'humain (après la livraison de v3b) : « pour les schémas et tableaux dans le chat, fais attention à l'échelle et à la taille : lisible (responsive), pas trop grand à l'écran ».
+- Le hook a refusé le premier appel Bash de l'`executant` : **rien n'a été mesuré ni modifié**, aucun fichier écrit. Serveur de l'humain sur le port 8080 (`dist/`) intact.
+- Reprise : nouvelle session sonnet depuis la racine ; mesurer d'abord l'état actuel (`observer_v3b.py`, 1280/768/420/360 px), puis CSS : hauteur max ≈ 45vh et ≤ 360 px, ratio conservé, tableau qui défile dans sa zone, texte SVG ≥ ≈ 11 px, bulle du tuteur élargie à 1280 px ; refaire build, `csp.mjs`, contraste, observation. Les points de v3b ci-dessous (rapport à approuver, code non commité) sont inchangés ; cet ajustement s'ajoute au code non commité, donc à intégrer avant le commit de v3b si tu le souhaites.
+
+## Session 13 (suite) : v3b LIVRÉE, à approuver (code NON commité dans `projet/maths`)
+- v3a1 commitée par moi à ta demande (`b58e5f9`, local, non poussé) ; sa ligne `validations.md` manque toujours.
+- **v3b** (tableaux, repères, figures, schémas dans le chat ; couleur dans le chat seulement) : étapes A et B faites, relecture `verificateur` **NON CONFORME** au 1er passage (1 bloquant : le bandeau d'énoncé aurait rendu une figure colorée ; 4 mineurs). Bloquant, M1 (bidi) et M4 (ids) corrigés et rejoués par moi, **non relus par un tiers** ; M2 (légende dès 2 couleurs) et M3 restent.
+- Rejoué par moi : 144 + 55 tests, fmt, clippy natif et wasm32, `contraste.mjs` 0 échec, `csp.mjs --verifier` OK. Observé en Firefox headless sous la CSP réelle (1280 et 420 px, clair et sombre). **Haiku réel non observé** (pas de clé API).
+- **À toi** : lire `a_valider/2026-10-01_maths_parcours_v3b_rapport.md` (commande de commit exacte, 4 points dont `MAX_TOKENS` 1536 et M2), puis une ligne `validations.md` et le commit. Pour voir l'app : servir `projet/maths/app/dist/` (le serveur du port 8080 est arrêté) ; un essai avec ta clé dira si Haiku produit du JSON valide.
+- Coût : ≈ 408 k jetons sonnet pour v3b (6 sous-agents), ma fourchette 3 à 6 USD, plafond 5 USD non contrôlable (réel à relever sur ta console). Mémoire : 1 décision, 1 leçon, 2 lignes d'estimation (dont une rectification). `travail/brouillons/` non vidé (aucun accord). `humain/taches/maths_parcours_v3.md` contient encore le texte de v3a avant la section v3b.
+
+## Session 13 : v3a1 LIVRÉE, à approuver (code NON commité dans `projet/maths`) ; v3b non démarrée
+- Accords v3a1 et v3b (figures + couleur dans le chat) présents dans `validations.md`, tâches copiées. Ordre choisi : v3a1 d'abord (mêmes fichiers que v3b).
+- v3a1 : `R\{2}` exact → ℝ², `R^2` après un mot d'ensemble → ℝ², prompts Haiku ajustés. Relecture `verificateur` **CONFORME** (0 bloquant, 2 mineurs). Rejoué par moi : 110 + 55 tests, fmt, clippy natif et wasm32, build release, `csp.mjs --ecrire`/`--verifier` (nouveau hash). Observé 1280 et 420 px (iframe) sous la CSP réelle ; Haiku réel non observé.
+- **À toi** : lire `a_valider/2026-10-01_maths_parcours_v3a1_rapport.md` (commande de commit exacte, 4 points dont « de R^2 » → ℝ² à tort), puis une ligne `validations.md` et le commit.
+- **v3b non lancée** : leçon du 2026-09-30 (pas de nouvelle tâche après une clôture dans la même session) et conflit de fichiers avec v3a1 non commitée. Reprise : nouvelle session (sonnet) après commit de v3a1 ; `estimer.py` indique 13,8 à 59 USD (artefact), ma fourchette v3b ≈ 3 à 6 USD : la borne haute dépasse le plafond de 5 USD, découpe ou plafond à décider par toi. `humain/taches/maths_parcours_v3.md` contient encore le texte de v3a avant la section v3b.
+- Coût : 3 sous-agents sonnet ≈ 110 k jetons ; ma fourchette 0,3 à 1 USD ; réel à relever sur ta console. Mémoire : 1 décision, 1 estimation. `travail/brouillons/` non vidé (aucun accord). Un `cd` nu (vers la racine) de ma part en fin de session, sans effet.
 
 ## Session 12 : audit ciblé du tuteur Anthropic FAIT (choix A) ; v3b (choix C) non démarrée
 - **Clôture session 12** : relecture `verificateur` CONFORME (plan v3a) et CONFORME avec réserves mineures (audit, corrigées dans `erratum_synthese.md`). v3a commitée (`ba57024`) et README (`31a3da5`) dans `projet/maths`, locaux, non poussés ; tests rejoués (109 + 55, fmt, clippy natif et wasm32, `csp.mjs --verifier`). Proposition : `a_valider/2026-10-01_maths_tuteur_audit_rapport.md` (7 décisions). Mémoire : 1 décision, 1 leçon, 1 estimation.

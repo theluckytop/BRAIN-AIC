@@ -290,3 +290,39 @@ Ajout uniquement. Relues au démarrage de chaque tâche. Format :
 - Cause réelle : chaque agent note selon son domaine, sans voir les autres ; la consigne ne demandait pas de gravité commune pour un défaut partagé.
 - Correctif : la synthèse retient la gravité la plus haute et fusionne les constats.
 - Règle : à la prochaine vague multi-domaines, demander aux agents de citer d'abord les constats déjà connus d'un autre domaine, ou relire les gravités croisées avant la synthèse.
+
+## 2026-10-01 — Un composant partagé porte la règle « chat seulement » : la limite se met au point d'appel
+- Symptôme : relecture v3b NON CONFORME : `texte_math`, appelé aussi par le bandeau d'énoncé, aurait rendu une figure colorée hors du chat ; un test disait pourtant « l'énoncé n'a pas de figure », mais ne vérifiait que le texte du prompt.
+- Cause réelle : la restriction « couleur dans le chat seulement » a été traitée comme une propriété du prompt, pas du rendu ; un test sur le prompt ne prouve rien sur ce que l'app dessine quand la donnée vient d'ailleurs (Haiku, cours non fiable).
+- Correctif : paramètre explicite `Figures` au point d'appel, fonction pure testée, observation du bandeau.
+- Règle : une autorisation réservée à une zone (couleur, figures) se code comme paramètre obligatoire du composant partagé, jamais comme hypothèse sur ce que l'appelant enverra ; chaque critère « seulement ici » s'observe dans l'autre zone aussi.
+
+## 2026-10-01 — Une demande reçue après la clôture, en fin de session, se heurte au compteur de durée sans préavis
+- Symptôme : après la livraison de v3b, la demande « taille des figures » a lancé un `executant` ; le hook l'a refusé (1072 min > 90) avant toute action : rien fait, un sous-agent consommé pour rien.
+- Cause réelle : j'ai lancé le sous-agent sans tester le compteur du hook, qui court depuis le début de la session (attentes de l'humain comprises), comme dans les leçons des 2026-09-24, 2026-09-29 et 2026-09-30. Mon horloge `date` (début à 00:32) ne reflétait pas ce compteur.
+- Correctif : aucun contournement ; état, question et leçon écrits, reprise en nouvelle session.
+- Règle : le compteur du hook fait foi, pas ma propre horloge ; avant tout sous-agent d'exécution, une commande Bash triviale sert de test, et en cas de refus, écrire état, question et leçon, puis s'arrêter.
+
+## 2026-10-01 — Un attribut `style` en ligne bat la feuille CSS : la taille du SVG ne bougeait pas
+- Symptôme : plafonner la taille des figures en CSS n'avait aucun effet ; 5 passes d'observation avant de comprendre.
+- Cause réelle : `figure_svg.rs` posait `style="max-width:100%"` en ligne, qui l'emporte sur `max-width` de la feuille.
+- Correctif : attribut retiré, réglage en CSS seul ; mesure rejouée aux 4 largeurs.
+- Règle : avant de régler une taille en CSS, grep des attributs `style` posés par le code sur l'élément ; mesurer après chaque changement plutôt que d'empiler les corrections.
+
+## 2026-10-01 — Les demandes enchaînées après la clôture rattrapent le compteur de 90 min
+- Symptôme : « lance l'app » refusée par le hook (95 min > 90) après un commit et deux demandes de lancement.
+- Cause réelle : la session avait déjà atteint ≈ 90 min à la fin de v3b-T ; chaque demande suivante (commit, v3c, app) a été traitée dans la même session. Le commit est passé de justesse.
+- Correctif : aucun contournement ; état, question et leçon écrits, arrêt.
+- Règle : à la clôture, annoncer que la session est proche de la limite et que les demandes suivantes (app, nouvelle tâche) partent en nouvelle session ; ne pas enchaîner d'actions sans lancer d'abord une commande triviale de test du compteur.
+
+## 2026-10-04 — Deux `executant` en parallèle dans le même arbre : les échecs de cargo sont transitoires, le diff ne s'attribue plus
+- Symptôme : l'étape 1 a rendu un rapport « chaîne non verte » (test et clippy en échec) à cause du code en cours de l'étape 2 ; le `cargo fmt --all` de l'étape 2 a pu toucher les fichiers de l'étape 1.
+- Cause réelle : les deux agents partagent le même dossier et le même `cargo` ; chacun compile le code à moitié écrit de l'autre, et aucun ne peut isoler ses changements.
+- Correctif : consigne d'attendre et relancer sans corriger l'autre ; rejeu complet par moi après les deux, puis par le `verificateur`.
+- Règle : paralléliser seulement des étapes à fichiers disjoints, interdire `cargo fmt --all` à l'un des deux (utiliser `rustfmt` sur ses fichiers), et ne croire un résultat de chaîne qu'au rejeu final après les deux.
+
+## 2026-10-04 — « Licence et auteurs affichés » : relire la clause de la licence, pas seulement le nom
+- Symptôme : première intégration L1 affichant « Exo7 » et la licence, sans les auteurs ; relecture NON CONFORME sur ce seul point.
+- Cause réelle : ma consigne à l'`executant` listait licence et attribution de la source, pas les auteurs nominatifs que la clause BY exige ; le critère de la tâche les nommait.
+- Correctif : champ `auteurs` généré depuis les pages « Les auteurs » des PDF, noms contrôlés par assertion.
+- Règle : recopier mot pour mot les critères d'affichage de la tâche dans la consigne du sous-agent, et vérifier les licences réelles dans la source (3.0 et non 4.0 ici).

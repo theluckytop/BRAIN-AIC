@@ -267,3 +267,102 @@ En attendant : rien (session bloquée). `humain/etat.md` est à jour pour la rep
 Réponse : 
 (Consigné par l'agent, 2026-09-30) Réponse donnée en session : **A** (audit ciblé du tuteur, puis `README.md`) ; message coupé après « choix A et » : la suite est à préciser.
 (Consigné par l'agent, 2026-09-30) Précision donnée en session : **A et C en parallèle**. v3b (C) ne démarre qu'avec la tâche copiée par toi dans `humain/taches/`, sa ligne `validations.md` et une ligne dédiée à la couleur dans le chat (brouillon : `a_valider/maths_parcours_v3_TACHE_A_COPIER.md`).
+
+## 2026-10-01 — maths v3b : taille et échelle des figures et tableaux du chat (session arrêtée, 1073 min > 90)
+Question : tu veux des figures et tableaux lisibles et pas trop grands (responsive). Le garde-fou a coupé la session avant tout travail sur ce point. Lances-tu une nouvelle session (sonnet, depuis la racine) pour cet ajustement ?
+Options : A nouvelle session : mesure de l'état actuel puis correctifs CSS et de dimensionnement, observation 1280/768/420/360 px, intégrés au code v3b non commité (recommandée : petit, mêmes fichiers) / B commiter d'abord v3b telle quelle (commande dans `a_valider/2026-10-01_maths_parcours_v3b_rapport.md`) et traiter la taille dans une tâche séparée.
+En attendant : rien ; `humain/etat.md` est à jour. Ton serveur du port 8080 est resté lancé et sert le build actuel de `dist/`.
+Réponse : 
+
+## 2026-10-01 — maths v3b-T : zone des messages du chat trop basse, accès clavier au tableau
+Question : la taille des figures et tableaux est réglée (relecture CONFORME, mesures aux 4 largeurs). Restent trois points hors périmètre : (1) à 1280x814 la zone des messages ne fait que ~165 px, une figure de 270 px y est rognée et défile (panneau de clé, énoncé et saisie prennent le reste) ; (2) le tableau défilant n'a pas de `tabindex`/`role`/`aria-label` (accès clavier) ; (3) la légende d'un petit tableau passe sur deux lignes. Les traite-t-on ?
+Options : A tâche séparée : mise en page de l'écran de chat (zone des messages plus haute, panneau de clé repliable) + `tabindex="0"`, `role="region"`, `aria-label` sur la zone défilante (recommandée : (1) gêne l'usage réel, (2) est petit) / B seulement (2) dans v3b avant commit / C reporter à la responsivité.
+En attendant : rien ; v3b prête à être approuvée et commitée par toi.
+Réponse : 
+(Consigné par l'agent, 2026-10-01) Réponse donnée en session : **A** pour les trois points (tâche séparée v3c : zone des messages, accessibilité clavier du tableau, légende). Brouillon : `a_valider/maths_parcours_v3c_TACHE_A_COPIER.md`. Rien lancé : la tâche doit être copiée par toi dans `humain/taches/` avec sa ligne `validations.md`, et la leçon du 2026-09-30 interdit de l'ouvrir après une clôture dans la même session.
+
+## 2026-10-01 — maths : lancer l'app, et v3c (session arrêtée, 95 min > 90)
+Question : tu as demandé « lance v3c » puis « lance l'app ». v3c : ni `humain/taches/maths_parcours_v3c.md` ni ligne `validations.md` ne sont présentes (vérifié). L'app : le garde-fou a refusé le premier appel Bash (95 min > 90), rien n'a été lancé, le port 8080 n'a pas été contrôlé.
+Options : A nouvelle session sonnet depuis la racine : je lance l'app (`projet/maths/app/dist/` servi en local sur 8080, build de v3b commitée `ac3d45a`) en premier, puis v3c si tu as copié la tâche et ajouté sa ligne (recommandée) / B tu lances toi-même l'app : `python3 -m http.server 8080 --directory projet/maths/app/dist` depuis la racine de BRAINIAC (`! …` dans le prompt) ; sans la CSP réelle de `netlify.toml`, comme les services précédents.
+En attendant : rien (session bloquée). `etat.md` est à jour.
+Réponse : 
+(Consigné par l'agent, 2026-10-01) L'humain a ouvert l'app et testé avec Haiku : le tableau demandé (f(x)=2x+3) s'affiche en texte brut dans le style pixel, sans bloc ```figure. Il veut un tableau propre « en dehors du thème graphique », idem pour les schémas. Ajouté au brouillon v3c (`a_valider/maths_parcours_v3c_TACHE_A_COPIER.md`) : prompt plus strict, repli des tableaux Markdown en vrai `<table>`, style sobre. À confirmer : « hors thème » = style sobre (police système, filets fins) dans le chat seulement ? Recopier le brouillon à jour dans `humain/taches/` (le texte copié avant cet ajout est périmé).
+(Rectification de l'agent, 2026-10-01) Erreur dans la ligne précédente : le brouillon v3c n'a PAS été modifié, l'écriture dans `a_valider/` a été refusée par le garde-fou (102 min > 90). Il ne contient donc pas ce qui suit. Critères proposés pour v3c, à ajouter par toi ou en nouvelle session : (a) le prompt Haiku (`api.rs`, `SYSTEME`) exige le bloc ```figure pour tout tableau, schéma ou repère, avec un exemple ; (b) repli : un tableau Markdown (`| a | b |` + ligne `---`) est rendu en vrai `<table>` par le chemin des tableaux de figure (cellules en nœuds texte, bornes, 0 `inner_html`) ; (c) style sobre pour tableaux et schémas du chat (police système, filets fins, en-tête distinct, clair et sombre, contraste 0 échec, `tokens.css` inchangé) ; (d) essai réel avec ta clé pour confirmer que Haiku produit le bloc. Cause du texte brut : non vérifiée (hypothèse : prompt trop faible). À confirmer : « hors thème graphique » = style sobre dans le chat seulement ?
+
+## 2026-10-01 — maths v3c : le repère de Haiku est refusé (« repere : clé non autorisée »), autre solution demandée
+Constat (essai réel de l'humain avec Haiku, triangle ABC rectangle) : le validateur de `figure.rs` a refusé le bloc, donc rien n'est dessiné ; Haiku commente la figure comme si elle existait. Autre défaut vu : « Pythagore » affiché `32+42 =9+16 =5` (exposants perdus, 5 au lieu de 25 puis √ : formule non écrite en LaTeX). Cause du refus : non vérifiée (je n'ai pas le JSON) ; hypothèse : clé de `figure` (polygone, angle) placée dans un `repere`. Le « tout ou rien » d'un vocabulaire strict est trop fragile face à un petit modèle.
+Options (v3c, à valider ; rien de codé, session bloquée) :
+A **sortie structurée par outil** (recommandée) : l'appel à l'API Claude déclare un outil `figure` avec un `input_schema` JSON (vocabulaire fermé) ; Haiku remplit l'outil au lieu d'écrire du JSON dans le texte, donc clés conformes par construction ; le validateur du code reste en défense (même accord API, même hôte, pas de nouvelle dépendance, mais `api.rs`/`appel.rs` changent et l'audit du tuteur s'applique).
+B **validation tolérante** : une clé inconnue est ignorée (jamais lue) au lieu de refuser tout le bloc ; un repère accepte aussi polygones, segments, angles et étiquettes (un triangle dans le plan est le cas naturel) ; le refus ne reste que pour type inconnu, bornes, nombres non finis.
+C **renvoi automatique** : si le bloc est refusé, l'app renvoie à Haiku le message d'erreur précis pour qu'il corrige (un appel de plus, coût et boucle à borner à 1).
+D prompt seul plus strict (rejeté d'avance : déjà insuffisant, pas une garantie).
+Recommandation : **B + A**, C seulement si Haiku échoue encore ; en tout cas, afficher le motif exact du refus avec la clé fautive (aujourd'hui seulement « clé non autorisée »), et exiger que le prompt écrive les formules en `$…$` (exposants, racines).
+En attendant : rien. Critères à ajouter à `maths_parcours_v3c` : triangle de l'exemple rendu avec angle droit ; formule de Pythagore en LaTeX correct ; refus affichant la clé fautive ; essai réel avec la clé de l'humain.
+Réponse : 
+(Consigné par l'agent, 2026-10-01) Réponse donnée en session : **A+B** (sortie structurée par outil + validation tolérante). Rien lancé : session bloquée (garde-fou), tâche v3c non copiée, aucune ligne `validations.md`. L'humain doit copier le brouillon dans `humain/taches/maths_parcours_v3c.md` en y ajoutant : outil `figure` à `input_schema` dans l'appel API, clés inconnues ignorées, repère acceptant polygones/segments/angles/étiquettes, motif du refus avec la clé fautive, formules en `$…$`, tableau Markdown en vrai `<table>`, style sobre du chat, triangle de l'exemple rendu, essai réel avec sa clé. La ligne `validations.md` doit nommer l'API Claude (outil de sortie structurée, même hôte, aucune installation) et le plafond de 5,00 USD ; v3c dépasse probablement 5 USD avec A+B+style : découpe à décider (v3c1 = B + prompt + motif du refus + tableau Markdown, v3c2 = A + style sobre + mise en page).
+
+### Texte de `humain/taches/maths_parcours_v3c1.md` (rédigé à ta demande ; écriture dans `a_valider/` refusée par le garde-fou, 126 min > 90)
+# Maths — Parcours v3c1 : figures tolérantes, motif du refus, prompt strict, tableau Markdown
+- **Priorité** : haute (retours d'usage réel avec Haiku)
+- **Autonomie accordée** : signaler
+- **Échéance** : aucune
+
+## Objectif
+Faire que ce que Haiku produit dans le chat (triangle dans un repère, tableau de valeurs, formule de Pythagore) s'affiche correctement au lieu d'être refusé ou rendu en texte brut.
+
+## Contexte
+Suite de v3b (commit `ac3d45a`). Essais réels de l'humain : (1) tableau de f(x)=2x+3 en texte brut, sans bloc ```figure ; (2) triangle ABC dans un repère refusé : « [Figure non affichée : repere : clé non autorisée.] » ; (3) Pythagore affiché « 32+42 =9+16 =5 » (formule non écrite en LaTeX). Code : `app/src/figure.rs`, `composants/figure_svg.rs`, `tableau_chat.rs`, `texte_math.rs`, `notation.rs`, `api.rs` (`SYSTEME`). Choix A+B de l'humain : v3c1 = B (validation tolérante) + prompt + motif du refus + tableau Markdown ; A (outil à `input_schema`) et style sobre = v3c2.
+
+## Critères d'acceptation
+- [ ] Une clé inconnue dans un bloc ```figure est ignorée (jamais lue), sans refuser le bloc ; refus conservé pour type inconnu, bornes dépassées, nombres non finis, couleur hors liste (tests, dont cas hostiles).
+- [ ] Un `repere` accepte aussi polygones, segments, angles (dont angle droit) et étiquettes ; le triangle ABC de l'essai (A(1,1), B(5,1), C(1,4), angle droit en A) est rendu (observé à 1280 et 420 px, clair et sombre).
+- [ ] Un refus affiche le motif exact avec la clé ou la valeur fautive, sans recopier le JSON entier (nœuds texte, longueur bornée).
+- [ ] Le prompt Haiku exige le bloc ```figure pour tout tableau, schéma ou repère, avec un exemple, et l'écriture en `$…$` de toute formule ; test sur le texte du prompt.
+- [ ] Un tableau Markdown (`| a | b |` + ligne `---`) dans une réponse est rendu en vrai `<table>` par le chemin des tableaux de figure (nœuds texte, bornes) ; un texte sans séparateur reste du texte. Le tableau de f(x)=2x+3 est rejoué (réponse simulée).
+- [ ] `Figures::Refusees` inchangé : le bandeau d'énoncé ne dessine jamais de figure ; couleur dans le chat seulement.
+- [ ] Tests, fmt, clippy natif et wasm32, `contraste.mjs`, `csp.mjs --ecrire`/`--verifier` verts ; `tokens.css`, `Cargo.toml`, `Cargo.lock` inchangés ; 0 `inner_html` ; relecture `verificateur` CONFORME.
+- [ ] Essai réel avec la clé de l'humain : le rapport dit ce que l'agent n'a pas pu observer.
+
+## Hors périmètre
+Outil à `input_schema` et style sobre (v3c2), mise en page du chat et accessibilité clavier (v3c), audit du tuteur, v2b, push, déploiement.
+
+### Ligne à écrire dans `validations.md`
+`| 2026-10-01 | maths_parcours_v3c1.md | APPROUVÉ | Validation tolérante des figures, motif du refus, prompt Haiku strict, tableau Markdown en <table>. API Claude (Haiku) à l'exécution, clé saisie par l'utilisateur, jamais partagée. Aucune installation, aucun réseau à la construction. Budget : plafond de 5,00 USD. |`
+
+## 2026-10-04 00:50 — maths_parcours_v3c1
+Question : l'énoncé généré est tronqué à 600 caractères (`api.rs:418`, `MAX_CARACTERES_ENONCE`), parfois au milieu d'un bloc ```figure : le bandeau affiche « [Figure non affichée : bloc non fermé.] » (sans risque de sécurité). Que faire ?
+Options : A accepter tel quel (le prompt d'énoncé interdit déjà les figures, cas rare) (recommandée, parce que le bandeau reste sûr et que ce n'est pas dans le périmètre de v3c1) / B tâche à part : tronquer avant un bloc figure.
+En attendant : je poursuis sur la clôture ; rien codé.
+Réponse : A (accepté tel quel).
+
+## 2026-10-04 01:30 — maths_parcours_v3c2
+Question : « tableau propre en dehors du thème graphique » : le style sobre (police système, filets fins, en-tête distinct) doit-il s'appliquer au chat seulement, le reste de l'app gardant le thème pixel ? C'est l'hypothèse codée dans v3c2 (sélecteurs `.px-chat`).
+Options : A chat seulement (recommandée, parce que c'est ce qui est codé et observé, et que le thème pixel reste l'identité de l'app) / B aussi ailleurs (nouvelle tâche, `tokens.css` touché).
+En attendant : v3c2 livrée avec A ; rien d'autre lancé.
+Réponse : A (chat seulement).
+
+## 2026-10-04 — maths_l1_cours_pdf (proposition `a_valider/2026-10-04_maths_l1_cours_pdf.md`)
+Question 1 : l'app reste-t-elle locale ou non commerciale ? Les PDF Exo7 sont annoncés CC BY-NC-SA 4.0 (clause NC), une publication Netlify est à ta décision.
+Options : A usage local ou non commercial, attribution affichée (recommandée, parce que c'est ce que la licence permet sans condition) / B publication publique, à examiner avant.
+Question 2 : couleur des captures de schémas ?
+Options : A niveaux de gris (recommandée, parce que noir et blanc strict hors chat) / B couleurs d'origine, avec une ligne `validations.md`.
+Question 3 : les PDF ?
+Options : A copie des 3 PDF (3,8 Mo) dans l'app, lien `#page=N` (recommandée, parce que sans réseau) / B liens vers exo7.emath.fr, accord réseau requis.
+Question 4 : découpe ? A deux tâches, (1) niveau L1 + liens PDF, (2) captures (recommandée, parce que borne haute près du plafond de 5 USD) / B une seule.
+En attendant : rien codé ; je n'ai pas copié ni modifié les PDF.
+Réponse : 
+
+## 2026-10-04 21:30 — maths_l1_cours_pdf, après l'étape 1 (extraction)
+Constat 1 : la licence lue dans les PDF est **CC BY-NC-SA 3.0 FR** pour Algèbre et Analyse (4.0 FR seulement pour Formules), pas 4.0 comme dans la tâche. L'attribution affichée suivra le texte exact des PDF. Rien à faire si tu es d'accord ; sinon dis-le.
+Constat 2 : `pdftotext` rend mal les formules (∫ en « Z », caractères de contrôle, ordre des lignes) : 27 extraits sur 29 sont marqués `extraction_imparfaite`. Ils sont bien présents dans le PDF (`verifie: true`) mais peu lisibles.
+Options : A afficher l'extrait tel quel avec la mention « extraction imparfaite » et le lien vers la page du PDF (recommandée, parce que rien n'est réécrit hors source, conforme à la tâche) / B retirer les extraits imparfaits et ne garder que titre, sections, pages et lien PDF / C écrire les extraits en LaTeX à la main (hors source vérifiable, écart à la tâche).
+En attendant : j'intègre la structure (chapitres, pages, prérequis, liens PDF, attribution) avec l'option A ; l'extrait se change ensuite sans refaire le reste.
+Réponse : 
+
+## 2026-10-04 21:45 — bouton menu qui recouvre le contenu, police trop petite
+Demande reçue : (1) le ☰ masque le début des titres et des étiquettes de l'onglet Cours ; (2) texte petit en police à chasse fixe, réglage A− / A+ et zoom navigateur demandés. C'est une nouvelle tâche : je n'ai rien codé (il faut ta copie dans `humain/taches/` et une ligne `validations.md`, et la session est déjà longue).
+Brouillon prêt : `a_valider/maths_ui_menu_police_TACHE_A_COPIER.md` (critères mesurables). Recoupe la v3c (`maths_parcours_v3c_TACHE_A_COPIER.md`).
+Question : la police à chasse fixe du thème pixel : A garder et seulement agrandir (recommandée, parce que `tokens.css` reste inchangé) / B police plus lisible pour le texte long seulement.
+Ordre : A faire cette tâche seule, avant v3c (recommandée, parce que c'est le défaut que tu vois) / B la fusionner avec v3c.
+Réponse : 
+Réponse (reçue en session 16, 2026-10-04) : question 1 = **B** (police plus lisible pour le texte long, thème pixel gardé pour titres et boutons) ; question 2 = **A** (cette tâche seule, avant v3c).
