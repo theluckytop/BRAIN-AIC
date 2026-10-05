@@ -283,3 +283,13 @@ Ajout uniquement. Format :
 - Contexte : `maths_l1_cours_pdf` (accord du 2026-10-04) ; `pdftotext` rend mal les formules (27 extraits sur 29), licence réelle 3.0 FR pour les deux livres.
 - Alternatives rejetées et pourquoi : intégrer L1 dans la chaîne Coopmaths de `construire.py` (réseau ou cache absent) ; retirer ou réécrire les extraits (hors source vérifiable, question A/B/C posée à l'humain) ; écrire « 4.0 » pour tout (faux pour les livres).
 - Conséquences : `corpus/l1/{extraire_l1,integrer_l1}.py` rejouables, `source_pdf` dans `Notion`, `lien_pdf` à liste blanche, auteurs affichés (clause BY), `l1` exempté de « source avec URL » (sources PDF locales). Hash CSP changé (`index.html`). Correctif des auteurs non relu par un tiers.
+
+## 2026-10-05 — UI maths : ☰ en barre d'en-tête, police système pour le texte long, taille par `data-taille` et variable CSS
+- Contexte : `maths_ui_menu_police` (accord 2026-10-05, choix B de police et ordre A de l'humain) ; code trouvé non commité des étapes 1 à 3 d'une session précédente, observé et relu en session 19.
+- Alternatives rejetées et pourquoi : taille par attribut `style` en ligne (annule la feuille CSS, leçon du 2026-10-01) ; nouvelle police téléchargée (hors accord) ; ☰ garde sa position absolue avec un décalage du contenu (recouvrement selon l'écran) ; correction de la modale Parcours (z-index) non faite : choix de l'humain.
+- Conséquences : `composants.css` (barre `.px-shell__menu` en flux, bloc « Texte long »), `taille.rs`, `taille_texte.rs`, clé `brainiac-maths-taille` ; `tokens.css` et `Cargo.*` inchangés ; la modale recouvre le ☰ à 420 px et moins, décision en attente dans `a_valider/2026-10-05_maths_ui_menu_police_rapport.md`.
+
+## 2026-10-05 — Modale Parcours : elle recouvre le ☰ à 640 px et moins, accepté (option A de l'humain)
+- Contexte : relecture de `maths_ui_menu_police` : la modale (fixed, z:10) recouvre le ☰ et A−/A+ ; le critère 1 dit « aucun recouvrement sur le Parcours ».
+- Alternatives rejetées et pourquoi : ☰ au-dessus de la modale (option B, z-index) : non retenue par l'humain.
+- Conséquences : critère 1 satisfait avec réserve pour la modale ouverte ; commit `70ef8de` dans `projet/maths` (local, non poussé) à la demande de l'humain.

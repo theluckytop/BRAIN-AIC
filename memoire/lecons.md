@@ -326,3 +326,15 @@ Ajout uniquement. Relues au démarrage de chaque tâche. Format :
 - Cause réelle : ma consigne à l'`executant` listait licence et attribution de la source, pas les auteurs nominatifs que la clause BY exige ; le critère de la tâche les nommait.
 - Correctif : champ `auteurs` généré depuis les pages « Les auteurs » des PDF, noms contrôlés par assertion.
 - Règle : recopier mot pour mot les critères d'affichage de la tâche dans la consigne du sous-agent, et vérifier les licences réelles dans la source (3.0 et non 4.0 ici).
+
+## 2026-10-05 — Une variable CSS posée « par défaut » sur une classe partagée écrase celle d'un ancêtre
+- Symptôme : A− / A+ changeait `data-taille` et `--px-echelle` sur `<main>`, mais aucun texte réel ne grandissait (énoncé 20 px au cran 4) ; les mesures de test, injectées sous `<main>`, montraient 32 px et faussaient le diagnostic.
+- Cause réelle : `.px-root { --px-echelle: 1 }` s'appliquait aussi au `div.px-root.px-shell`, enfant de `<main>`, et réinitialisait la variable pour tout le contenu.
+- Correctif : retrait du défaut sur `.px-root` (le repli est `var(--px-echelle, 1)`).
+- Règle : une variable héritée se pose une seule fois, au niveau qui la règle, sans valeur par défaut sur une classe que plusieurs ancêtres portent ; se mesurer sur les éléments réels, pas sur des éléments injectés.
+
+## 2026-10-05 — Du code livré par une session coupée n'est jamais consigné : relever l'état sur disque avant de planifier
+- Symptôme : le plan et `etat.md` annonçaient les étapes 1 à 3 « à faire » alors que le code, un build et des preuves partielles existaient déjà (non commités, sans README pour deux étapes).
+- Cause réelle : session précédente interrompue sans écrire son état.
+- Correctif : `git status`, dates des fichiers et des preuves relevés avant de lancer l'étape ; chaîne rejouée, observation reprise là où elle manquait.
+- Règle : au démarrage, comparer `etat.md` et `plan.md` à `git -C projet/<app> status` et aux dates des preuves ; ne jamais relancer une étape sans cela.
